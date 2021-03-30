@@ -1,0 +1,5060 @@
+<html lang="ko" lang="ko" xml:lang="ko" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=KSC5601">
+<title>신청서작성 및 제출</title>
+
+
+
+<!--[if IE 6]>
+   <link rel="stylesheet" type="text/css" href="/iros/css/001/design_ie6.css" />
+ <![endif]-->
+
+<link href="/iros/css/001/design.css" rel="stylesheet" type="text/css">
+<link href="/iros/css/layout.css" rel="stylesheet" type="text/css" media="" charset="euc-kr">
+
+
+
+
+
+<script language="JavaScript" src="/iros/js/default.js" type="text/javascript" charset="euc-kr"></script>
+
+
+<link href="http://www.iros.go.kr/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+
+  
+	<script language="JavaScript" type="text/javascript">
+    var START_URL='http://www.iros.go.kr/re1/InternetIndex.jsp';    var RETURN_URL='http://www.iros.go.kr';
+ </script> 
+<script language="JavaScript" src="/re1/js/ECOMCheckUrlMsg.js" type="text/javascript"></script> 
+<script language="JavaScript" src=" /re1/js/ECOMCheckUrl.js" type="text/javascript"></script> 
+  
+
+<script language="javascript" src="/re1/js/ECOMCommonMsg.js" type="text/javascript"></script>
+<script language="javascript" src="/re1/js/EC2Msg.js" type="text/javascript"></script>
+<script language="javascript" src="./re1/js/EC1Msg.js" type="text/javascript"></script>
+<script language="javascript" src="./re1/js/ER1Msg.js" type="text/javascript"></script>
+<script language="javascript" src="/re1/js/ECOMCommon.js" type="text/javascript"></script>
+
+
+<script language="javascript" src="/inziSoft/js/inziJS-1.0.js?scDate=20200604" type="text/javascript"></script><script src="/inziSoft/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script><script src="/inziSoft/js/json2.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {
+    if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+      document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage;
+    }
+  } else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) {
+    location.reload();
+  }
+}
+
+MM_reloadPage(true);
+
+function MM_showHideLayers() { //v6.0
+  var i,p,v,obj,args=MM_showHideLayers.arguments;
+  for (i=0; i<(args.length-2); i+=3) {
+    if ((obj=MM_findObj(args[i]))!=null) {
+      v=args[i+2];
+      if (obj.style) {
+        obj=obj.style;
+        v=(v=='show')?'visible':(v=='hide')?'hidden':v;
+      }
+      obj.visibility=v;
+    }
+  }
+}
+
+function f_init() {
+
+	var vSearchType = '';
+  
+	if (vSearchType == "RCVNO"){
+		document.form.txt_enr_recev_no_start.focus();
+	}else if (vSearchType == "SANGHO"){
+		document.form.txt_enr_sangho.focus(); 
+	}else{
+		document.form.create_date1.focus(); 
+	}
+
+  
+	  
+    checkVersion();
+  
+    
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_list()                                                            */
+/* DESC : 등록중 목록을 조회한다.                                                */
+/* DATE : 2004.11.06                                                          */
+/* AUTH : 김재홍                                                               */
+/*----------------------------------------------------------------------------*/
+function f_list() {
+  if(f_check()) {
+    document.form.action = "/efrontservlet?cmd=EC2GetBfPayListC";
+    document.form.submit();
+  }
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_subList()                                                         */
+/* DESC : 신청서제출대기 or 신청서출력 목록으로 이동한다.                           */
+/* DATE : 2004.11.06                                                          */
+/* AUTH : 김재홍                                                               */
+/*----------------------------------------------------------------------------*/
+function f_subList() {
+  document.form.action = "/efrontservlet?cmd=EC2GetWriteApplSpecSubListC";
+
+  document.form.create_date1.value = '';
+  document.form.create_date2.value = '';
+  //신청서제출대기 or 신청서출력 화면이동시 입력값을 초기화 한다.  이종진   2020.03.18 2020-W00108  
+  document.form.txt_enr_recev_no_start.value = '';
+  document.form.txt_enr_recev_no_end.value = '';
+  document.form.txt_enr_sangho.value = '';
+
+  document.form.submit();
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_ePayList()                                                         */
+/* DESC : 신청서결제대기 목록으로 이동한다.                                       */
+/* DATE : 2005.01.28                                                          */
+/* AUTH : 김재홍                                                               */
+/*----------------------------------------------------------------------------*/
+function f_ePayList() {
+  document.form.action = "/efrontservlet?cmd=EC2GetEPayWriteApplListC";
+
+  document.form.create_date1.value = '';
+  document.form.create_date2.value = '';
+  //신청수수료 결제대기 화면이동시 입력값을 초기화 한다.  이종진   2020.03.18 2020-W00108  
+  document.form.txt_enr_recev_no_start.value = '';
+  document.form.txt_enr_recev_no_end.value = '';
+  document.form.txt_enr_sangho.value = '';
+
+  document.form.submit();
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_writeAppl()                                                       */
+/* DESC : 신청서작성화면으로 이동한다. 파라미터가 없는경우는 신규작성임.              */
+/* DATE : 2004.11.06                                                          */
+/* AUTH : 김재홍                                                               */
+/*----------------------------------------------------------------------------*/
+function f_writeAppl(user_id,enr_appl_year,enr_recev_no) {
+  document.form.action = "/efrontservlet?cmd=EC2GetWriteApplStep1C";
+  if(user_id != null) {
+    document.form.user_id      .value = user_id      ;
+    document.form.enr_appl_year.value = enr_appl_year;
+    document.form.enr_recev_no .value = enr_recev_no ;
+  }
+  document.form.submit();
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_check()                                                           */
+/* DESC : 검색조건의 validation을 체크한다.                                      */
+/* DATE : 2004.11.06                                                          */
+/* AUTH : 김재홍                                                               */
+/*----------------------------------------------------------------------------*/
+function f_check() {
+	var form = document.form;
+	var workCls = "I";
+
+    //if (document.getElementById('id_search_type1').checked || "E" == workCls){ 
+    if (document.getElementById('id_search_type1').checked){ 
+
+		o_removevalidation(form);
+		f_addvalidation(form.create_date1, "required"   , "작성일자");
+		f_addvalidation(form.create_date2, "required"   , "작성일자");
+		f_addvalidation(form.create_date1, "numericdash", "작성일자");
+		f_addvalidation(form.create_date2, "numericdash", "작성일자");
+
+		if ( f_validateall(document.form) ) {
+			if ( !f_chkdate(form.create_date1) ) {
+				alert(SECOM017);    //유효한 날짜형식(YYYY-MM-DD)에 맞지 않습니다.
+				document.form.create_date1.select();
+				return false;
+			}
+			if ( !f_chkdate(form.create_date2) ) {
+				alert(SECOM017);    //유효한 날짜형식(YYYY-MM-DD)에 맞지 않습니다.
+				document.form.create_date2.select();
+				return false;
+			}
+			if(document.form.create_date1.value > '2021-03-30') {
+				alert("[작성일자]는 최대 현재일까지만 가능합니다.");
+				document.form.create_date1.select();
+				return false;
+			}
+			if(document.form.create_date2.value > '2021-03-30') {
+				alert("[작성일자]는 최대 현재일까지만 가능합니다.");
+				document.form.create_date2.select();
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+		return true;
+	} else if (document.getElementById('id_search_type3').checked) {
+	    o_removevalidation(form);
+	    f_addvalidation(form.txt_enr_sangho, "required", "상호");
+	    f_addvalidation(form.txt_enr_sangho, "inchar=corp2", "상호");
+	    
+		if ( f_validateall(document.form) ) {
+			form.searchType.value = "SANGHO";
+			return true;
+		} else {
+			return false;
+		}
+	}else{
+		var vRcvNoStart = document.getElementById('id_txt_enr_recev_no_start').value;
+  		var vRcvNoEnd   = document.getElementById('id_txt_enr_recev_no_end').value;
+		if(vRcvNoStart == ''){
+			alert(SER01072);
+			form.txt_enr_recev_no_start.focus();
+			return;
+		}else if (vRcvNoEnd == ''){
+			alert(SER01072);
+			form.txt_enr_recev_no_end.focus();
+			return;
+		}
+		if (Number(vRcvNoStart)>Number(vRcvNoEnd)){
+			alert(SER01073);
+			form.txt_enr_recev_no_start.focus();
+			return;
+		}
+		
+		if(f_validatedata("numeric", form.txt_enr_recev_no_start , "" ,SECOM010) != true)
+			{
+				form.txt_enr_recev_no_start.value ="";	
+				form.txt_enr_recev_no_start.focus();
+				return false;
+			}
+		if(f_validatedata("numeric", form.txt_enr_recev_no_end , "" ,SECOM010) != true)
+		{
+			form.txt_enr_recev_no_end.value ="";	
+			form.txt_enr_recev_no_end.focus();
+			return false;
+		}
+		form.searchType.value = "RCVNO";
+		return true;
+	}
+}
+
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_remove()                                                          */
+/* DESC : 신청서를 삭제한다.                                                    */
+/* DATE : 2005.11.15                                                          */
+/* AUTH : 김용재                                                               */
+/*----------------------------------------------------------------------------*/
+function f_remove() {	
+	var chks = document.form.chk;
+	var applList = new Array();
+	var len=0;
+
+	for(var i=0; i<chks.length-2; i++) {	
+		if(chks[i].checked == true) {
+			applList[len] = chks[i].value;
+			len++;
+		}
+	}		
+
+	if( applList.length == 0 ) {
+		alert(SECOM013); //선택된 목록이 없습니다.
+		return;
+	}
+
+	if( confirm(SER01060) ) { //신청서를 삭제하시겠습니까?
+		f_applArrToHidden( applList );
+		
+		//visibleProgressBar();	
+
+		document.form_hidden.action = "/efrontservlet?cmd=EC2RemoveApplListC";
+		document.form_hidden.submit();
+	}
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_trans_eform()                                                 */
+/* DESC : 이폼으로 변환한다. [인터넷고도화]반승현수정  */
+/* DATE : 2008.08.06                                                          */
+/* AUTH : [인터넷고도화]반승현                                                               */
+/*----------------------------------------------------------------------------*/
+function f_trans_eform(){
+	var chks = document.form.chk;
+	var applList = new Array();
+	var len=0;
+
+	for(var i=0; i<chks.length-2; i++) {
+		if(chks[i].checked == true) {
+			applList[len] = chks[i].value;
+			len++;
+		}
+	}
+
+	if( applList.length == 0 ) {
+		alert(SECOM013); //선택된 목록이 없습니다.
+		return;
+	}
+
+	if( confirm("신청서를 전자표준양식(E-Form)으로 전환하시겠습니까?")) { //신청서를 삭제하시겠습니까?
+		f_applArrToHidden( applList );
+
+		visibleProgressBar();
+
+		document.form_hidden.target = "_self"
+		document.form_hidden.action = "/efrontservlet?cmd=EC2TransEFormC";//[인터넷고도화]반승현수정
+		document.form_hidden.submit();
+	}
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_applArrToHidden()                                                 */
+/* DESC : appArr 값을 hidden객체로 만든다.                                      */
+/* DATE : 2005.04.29                                                          */
+/* AUTH : 김용재                                                               */
+/*----------------------------------------------------------------------------*/
+function f_applArrToHidden( appArr ) {
+
+ 	for(var idx=0; idx<appArr.length; idx++) {
+	    oHidden       = document.createElement("input");
+		oHidden.type  = "hidden";
+		oHidden.name  = "enr_appl_year";
+		oHidden.value = appArr[idx].split("|")[1];
+		document.form_hidden.appendChild(oHidden);
+
+	    oHidden       = document.createElement("input");
+		oHidden.type  = "hidden";
+		oHidden.name  = "enr_recev_no";
+		oHidden.value = appArr[idx].split("|")[2];
+		document.form_hidden.appendChild(oHidden);
+  }
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : visibleProgressBar()                                                */
+/* DESC : 버튼이미지를 invisible 시키고 ProgressBar 이미지를 visible하게 한다.     */
+/* DATE : 2004.02.22                                                          */
+/* AUTH : 최은선                                                               */
+/*----------------------------------------------------------------------------*/
+function visibleProgressBar() {
+    document.getElementById("Image").style.width="390px";
+    document.getElementById("Image").style.height="130px";
+    
+    document.getElementById("Image").style.left = parseInt(window.screen.width) / 2 - parseInt(document.getElementById("Image").style.width) / 2  - 180; //중앙정렬
+    document.getElementById("Image").style.top  = parseInt(document.body.offsetHeight) / 2 - parseInt(document.getElementById("Image").style.height) / 2 ; //중앙정렬
+    if ( document.body.scrollHeight > 893 ) // 스크롤발생
+        document.getElementById("Image").style.top = eval( parseInt(document.getElementById("Image").style.top)+parseInt(document.body.scrollHeight - 893) ) + "px";
+        	
+    document.getElementById("Image").style.visibility = "visible";
+    f_disable_all();
+}
+/*----------------------------------------------------------------------------*/
+/* NAME : invisibleProgressBar()                                              */
+/* DESC : 버튼이미지를 visible 시키고 ProgressBar 이미지를 invisible하게 한다.     */
+/* DATE : 2005.06.12                                                          */
+/* AUTH : 김덕규                                                               */
+/*----------------------------------------------------------------------------*/
+function invisibleProgressBar() {
+    document.getElementById("Image").style.visibility = "hidden";
+    f_able_all();
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_openHelp()                                                        */
+/* DESC : 도움말 화면을 오픈한다.                                                */
+/* DATE : 2005.10.16                                                          */
+/* AUTH : 김용재                                                               */
+/*----------------------------------------------------------------------------*/
+function f_openwindow_help() {
+    var helpName = "";
+
+		helpName = "/re1/help/c0/chelp_01_01.htm";
+
+	f_openHelpWindow( helpName, "01_01", "0", "0", "822px", "720px", "no",  "yes", "no");
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : All_Check()                                                        */
+/* DESC : checkbox check All.                                                */
+/* DATE : 2008.10.22                                                          */
+/* AUTH : INDY                                                               */
+/*----------------------------------------------------------------------------*/
+function All_Check(bool) {
+
+	var chks = document.form.chk;
+	if(chks != null){
+		if(!chks.length) {
+        	chks.checked=bool;
+		} else {
+			for(i=0; i<chks.length-2; i++) {
+          	  chks[i].checked = bool;
+       		}
+		}
+	}
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_maskDate(obj)                                                     */
+/* DESC : 일자의 자동자리수 맞춤을 해준다.                                        */
+/* DATE : 2005.01.19                                                          */
+/* AUTH : 김덕규                                                               */
+/*----------------------------------------------------------------------------*/
+function f_maskDate(obj,event) {
+
+	var keyCode = event.charCode ? event.charCode : event.keyCode;
+	if ( !(keyCode >= 48 && keyCode <= 57) && keyCode != 8 && keyCode != 9 ) {
+		if (event.stopPropagation) event.stopPropagation();
+		event.preventDefault ? event.preventDefault() : event.returnValue = false;
+		event.cancelBubble = true;
+		event.cancel = true;
+		obj.value = "";
+		return false;
+	   }
+
+	if (keyCode !=8){
+		if(obj.value.length == 4) {  
+			  obj.value += '-';
+		}
+
+		if(obj.value.length == 7) {
+		  obj.value += '-';
+		}
+		obj.maxLength = 10;
+	}
+	return;
+
+	var keyCode = window.event.keyCode;
+
+	if( !(keyCode>=48 && keyCode<=57) && keyCode!=13) {
+		alert(SEZ01088);//"숫자만 입력 가능합니다."
+		event.returnValue=false;
+	}
+
+	if(obj.value.length == 4) {
+	  obj.value += '-';
+	}
+
+	if(obj.value.length == 7) {
+	  obj.value += '-';
+	}
+	obj.maxLength = 10;
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_dateValidate()                                                    */
+/* DESC : 입력한날짜에 대한 validation을 수행한다.                               */
+/* DATE : 2004.10.27                                                          */
+/* AUTH : 고영준                                                              */
+/*----------------------------------------------------------------------------*/
+function f_dateValidate(obj) {
+
+   	
+   	if( obj.value !=''){
+        if(f_chkdate(obj)!=true){
+            alert("유효한 날짜형식이 아닙니다."); //SER07009
+            obj.value="";
+            obj.focus();
+            return false;
+        }
+        
+       	if(f_today1(obj)!=true){
+           	alert("작성일자는 최대 현재일까지 가능합니다.");
+           	obj.value="";
+           	obj.focus();
+           	return false;
+       	}
+    }
+}
+
+function f_enter(event){
+	if(event.keyCode==13){
+		f_enter_key();
+	}
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_enter_key()                                                        */
+/* DESC : ENTER KEY 할때 검색 실행                                               */
+/* DATE : 2004.11.11                                                           */
+/*-----------------------------------------------------------------------------*/
+function f_enter_key(){
+  f_list();
+}
+
+function f_today1( obj ) {
+
+	var today   = new Date();
+	var yyyy    = today.getFullYear();
+	var mm      = today.getMonth()+1;
+	var dd      = today.getDate();
+
+	var chg_date = obj.value.substr(0,4)+obj.value.substr(5,2)+obj.value.substr(8,2);
+
+	yyyy = f_formatFillZeroByValue( yyyy, 4 );
+	mm   = f_formatFillZeroByValue( mm,   2 );
+	dd   = f_formatFillZeroByValue( dd,   2 );
+
+	if ( chg_date > yyyy + mm + dd )
+	return false;
+
+	return true;
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_searchDate(addDate, stdDate, delimiter)                           */
+/* DESC : stdDate를 기준으로 addDate만큼 가감해준다.                                */
+/* DATE : 2010.05.03                                                          */
+/* AUTH : 홍길하                                                                                                                              */
+/*----------------------------------------------------------------------------*/
+function f_searchDate(addDate, stdDate, delimiter) {
+	var frm = document.form;
+	var tmpYear;
+	var tmpMonth;
+	var tmpDay;
+	var addVal;
+	var cDate;
+	var cYear;
+	var cMonth;
+	var cDay;
+	var fromDate;
+	var toDate;
+	
+	if(delimiter != "") {
+			stdDate = stdDate.replace(eval("/\\" + delimiter + "/g"), "");
+	}
+
+	tmpYear  = stdDate.substr(0, 4);
+	tmpMonth = stdDate.substr(4, 2);
+	tmpDay   = stdDate.substr(6, 2);
+
+	if(addDate.toUpperCase().indexOf("Y") != -1) {
+		addVal = addDate.replace(/[Yy]/g, "");
+		tmpYear = (tmpYear * 1) + (addVal * 1);
+	} else if(addDate.toUpperCase().indexOf("M") != -1) {
+		addVal = addDate.replace(/[Mm]/g, "");
+		tmpMonth = (tmpMonth * 1) + (addVal * 1);
+	} else if(addDate.toUpperCase().indexOf("D") != -1) {
+		addVal = addDate.replace(/[Dd]/g, "");
+		tmpDay = (tmpDay * 1) + (addVal * 1);
+	} 
+
+	cDate  = new Date(tmpYear, tmpMonth - 1, tmpDay);
+	cYear  = cDate.getFullYear();
+	cMonth = cDate.getMonth() + 1;
+	cDay   = cDate.getDate();
+
+	cMonth = cMonth < 10 ? "0" + cMonth : cMonth;
+	cDay   = cDay   < 10 ? "0" + cDay   : cDay;
+
+	if(delimiter != "") {
+		fromDate = cYear   + delimiter + cMonth   + delimiter + cDay;
+		toDate   = stdDate.substr(0, 4) + delimiter + stdDate.substr(4, 2) + delimiter + stdDate.substr(6, 2);
+	} else {
+		fromDate = cYear   + cMonth   + cDay;
+		toDate   = stdDate.substr(0, 4) + stdDate.substr(4, 2) + stdDate.substr(6, 2);
+	}
+	
+	frm.create_date1.value = fromDate;
+	frm.create_date2.value   = toDate;
+	
+}
+
+/*-----------------------------------------------------------------------------------------------*/
+/* NAME : f_src_type_disp()                                                                        */
+/* DESC : 검색 조건을 작성일자 또는 작성번호로 선택할 경우에 화면 표시를 변경한다. */
+/* DATE : 2015.07.30                                                                             */
+/* AUTH : 홍길하                                                                                  */
+/*-----------------------------------------------------------------------------------------------*/
+function f_src_type_disp(search_type){
+	if("type_enr_recev_date" == search_type){
+		document.getElementById("disp_enr_recev_date").style.display = "inline";
+		document.getElementById("disp_enr_recev_no").style.display = "none";
+		document.getElementById("disp_enr_sangho").style.display = "none";
+
+	}else if("type_enr_sangho" == search_type){
+		document.getElementById("disp_enr_recev_date").style.display = "none";
+		document.getElementById("disp_enr_recev_no").style.display = "none";
+		document.getElementById("disp_enr_sangho").style.display = "inline";
+
+	}else {
+		document.getElementById("disp_enr_recev_date").style.display = "none";
+		document.getElementById("disp_enr_recev_no").style.display = "inline";
+		document.getElementById("disp_enr_sangho").style.display = "none";
+	}
+}
+
+
+//]]>
+</script>
+</head>
+<body onload="f_init()" onunload="f_able_all()">
+<form name="form_hidden" action="/intro.jsp" method="post">
+	<div class="hidden">
+	 <input name="kadowah1" type="submit" value="쿼리 전송">
+	</div>
+<input name="next_page_gb" type="hidden" value="EC2WriteApplSpecListJ">
+</form>
+<div id="Lwrap">
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script language="javascript" src="/iros/js/deployJava.js" type="text/javascript"></script><object width="0" height="0" id="deployJavaPlugin" classid="clsid:CAFEEFAC-DEC7-0000-0000-ABCDEFFEDCBA"></object>
+
+<script language="javascript" src="/anysign4PC/anySign4PCInterface.js" type="text/javascript"></script><!-- XecureWeb Multi stylesheet --><link id="anySignCSS" href="http://www.iros.go.kr/anysign4PC/AnySign4PC/css/common.css" rel="stylesheet" type="text/css"><script src="http://www.iros.go.kr/anysign4PC/AnySign4PC/ext/AnySign4PC_min.js" type="text/javascript"></script>
+
+<script language="javascript" src="/re1/js/EZ1Msg.js" type="text/javascript"></script>
+
+<script src="/iros/js/001/jquery-1.9.1.min.js" type="text/javascript" charset="euc-kr"></script>
+<script src="/iros/js/001/design.js" type="text/javascript" charset="euc-kr"></script>
+<script src="/iros/js/001/popup.js" type="text/javascript" charset="euc-kr"></script>
+
+
+<script language="javascript" type="text/javascript">PrintObjectTag();</script>
+<script type="text/javascript">
+//<![CDATA[
+
+var snb1Idx = 1;
+var snb2Idx = 1;
+var snb3Idx = 1;
+var snb4Idx = 1;
+
+
+$(function(){              
+ $("#mymenu").focusin( function() {
+  $("#gnb > li > div").hide();
+ });    
+});
+
+//ie6 환경에서의 flicker 현상 방지를 위하여 넣어놓음. 09.02.19 윤지홍 문의는 이지연 대리님.
+try {
+     document.execCommand("BackgroundImageCache", false, true);
+} catch(err) {}
+
+var vvCurrentUrl1 = "http://" + location.host +  "/";
+var vvCurrentUrl2 = "http://" + location.host +  "/pos1/";
+var vvCurrentUrl7 = vvCurrentUrl2 + "pfrontservlet?cmd=PLETGetListLastLetterC";
+var vvCurrentUrl8 = vvCurrentUrl2 + "pfrontservlet?cmd=PBOAGetNoticeC";
+var vvCurrentUrl9 = vvCurrentUrl2 + "pfrontservlet?cmd=PFrmGetRegistryPrecedFormC";
+var vvCurrentUr20 = vvCurrentUrl2 + "pfrontservlet?cmd=PFrmGetRegistryFormC";
+
+
+
+/*  온라인 법인설립등기시스템 구축사업 2009.11.17 조강욱 시작    */
+var vvCurrentUr21 = vvCurrentUrl1 + "efrontservlet?cmd=EUROrisUserRegC";
+var vvCurrentUr22 = vvCurrentUrl1 + "re1/intro.jsp";
+var vvCurrentUr23 = vvCurrentUrl1 + "ifrontservlet?cmd=INSEWelcomeNseFrmC";
+
+if ( opener == null ){
+    if( ( top.location.href.indexOf(vvCurrentUrl7) == -1)
+     && ( top.location.href.indexOf(vvCurrentUrl8) == -1)
+     && ( top.location.href.indexOf(vvCurrentUrl9) == -1)
+     && ( top.location.href.indexOf(vvCurrentUr20) == -1)
+     && ( top.location.href.indexOf(vvCurrentUr21) == -1)
+     && ( top.location.href.indexOf(vvCurrentUr22) == -1)
+     && ( top.location.href.indexOf(vvCurrentUr23) == -1)
+    ){
+        if(!isMac()){ // Mac이 아닐경우만 체크
+                if ( window.name != "iros_window" ){
+                    alert( '메뉴를 통해 접속하지 않았습니다. 등기 포탈 초기 화면으로 이동합니다.');
+                    top.document.location = vvCurrentUrl1+"index.html";
+                }
+            }
+        }else{
+        }
+}
+/*  온라인 법인설립등기시스템 구축사업 2009.11.17 조강욱 끝     */
+
+// 통합전자등기 메뉴 일괄 개편. 유효기간안내팝업을 top_menu.jsp에서 Eurloginhidden.jsp로 이동 2019.01.07. 이종진 2019-W00023
+
+
+
+    function f_goMenuUrl(pstrUrl){
+        f_goUrl(pstrUrl);
+    }
+
+    /*----------------------------------------------------------------------------*/
+    /* NAME : f_rcCheck                                             */
+    /* DESC : 부동산 or 법인 텝 선택여부 판단                                 */
+    /* DATE : 2009.05.20                                                          */
+    /* AUTH : 노경석                                                                 */
+    /*----------------------------------------------------------------------------*/
+    function f_rcCheck()
+    {
+        var opt1 = "R";
+        var leftMenu1 = document.getElementById("left_menu1");
+        var leftMenu2 = document.getElementById("left_menu2");
+        var leftMenu3 = document.getElementById("left_menu3");
+
+        if ( leftMenu1 && leftMenu2 && leftMenu3)
+        {
+            if( !(leftMenu1.style.display == "none" || leftMenu1.style.display == "") )
+                opt1 = "R";
+            else if( !(leftMenu2.style.display == "none" || leftMenu2.style.display == "") )
+                opt1 = "C";
+            else if( !(leftMenu3.style.display == "none" || leftMenu3.style.display == "") )
+                opt1 = "D";
+        }
+        return opt1;
+    }
+
+    function gologout()
+    {
+        document.location.href = "/re1/jsp/ur/EURLogoutJ.jsp?rc_cls="+f_rcCheck();
+    }
+
+    function goMEMLoginWindowOpen(smsgubun)
+    {
+        var vUrl = "/efrontservlet?cmd=EURLoginEC&from_topmenu_pbsv=Y&rc_cls="+f_rcCheck();
+        window.open(vUrl,"e_form_login_win","top=200px,left=250px,width=480px,height=320px,toolbar=no,scrollbars=auto,resizable=no,status=no,titlebar=yes,menubar=no,location=no");
+    }
+
+    function goUserGuidJWindowOpen()
+    {
+        var vUrl ="/pos1/jsp/help/help_index.jsp";
+        var helpId = window.open(vUrl,"new","top=0,left=0,width=950px,height=680px,toolbar=no,scrollbars=yes,resizable=no,status=no,titlebar=yes,menubar=no,location=no");
+        helpId.focus();
+    }
+
+    // 검색
+    function f_srchWord() {
+        var vSrchVal = document.search_form.txt_srch_word.value;
+        if( vSrchVal.length < 2 ){
+            alert("검색어를 2자 이상 입력하시기 바랍니다.");
+            document.search_form.txt_srch_word.focus();
+            return;
+        } else {
+            vUrl = "/pos1/pfrontservlet?cmd=PCOMSrchListC&query="+ vSrchVal;
+            f_goUrl(vUrl);
+        }
+    }
+
+    function f_xecureSubmit(action){
+        document.xecureform1.action = action;
+        XecureSubmit(document.xecureform1);
+    }
+
+    /*----------------------------------------------------------------------------*/
+    /* NAME : f_xecureSubmit_idis()                                             */
+    /* DESC : 담보등기 전자신청 xecure로 서브밋                                 */
+    /* DATE : 2012.04.06                                                          */
+    /* AUTH : 조강욱                                                              */
+    /*----------------------------------------------------------------------------*/
+    function f_xecureSubmit_idis(action){
+        document.xecureformidis.action = action;
+        XecureSubmit_IDIS(document.xecureformidis);
+    }
+
+    // 영구보존문서전환일정
+    function young_popup()
+    {
+        var vUrl ="/pos1/html/mem/PMEMYounggu.html";
+        window.open(vUrl,"new","top=40,left=130,width=560,height=500,toolbar=no,scrollbars=yes,resizable=no,status=no,titlebar=yes,menubar=no,location=no");
+    }
+
+
+    
+// Enter이벤트 처리(크로스브라우징)
+function f_keyPressForSearchWord(e) {
+    if( !e ) {
+        if( window.event ) {
+            //DOM
+            e = window.event;
+        } else {
+            //TOTAL FAILURE, WE HAVE NO WAY OF REFERENCING THE EVENT
+            return;
+        }
+    }
+
+    if( typeof( e.which ) == 'number' ) {
+        //NS 4, NS 6+, Mozilla 0.9+, Opera
+        e = e.which;
+    } else if( typeof( e.keyCode ) == 'number' ) {
+        //IE, NS 6+, Mozilla 0.9+
+        e = e.keyCode;
+    } else if( typeof( e.charCode ) == 'number' ) {
+        //also NS 6+, Mozilla 0.9+
+        e = e.charCode;
+    } else {
+        //TOTAL FAILURE, WE HAVE NO WAY OF OBTAINING THE KEY CODE
+        return;
+    }
+
+    if(e == '13'){
+        f_srchWord();
+    }
+}
+
+
+
+if( isIE() && (navigator.userAgent.toLowerCase().indexOf("msie 8.") >= 0
+            || navigator.userAgent.toLowerCase().indexOf("msie 9.") >= 0 || navigator.userAgent.toLowerCase().indexOf("msie 10.") >= 0))
+{
+    
+    f_browser_zoom('default');
+}
+
+
+function f_setCookie(name, value, expireSecond){
+
+    var todayDate = new Date();
+
+    var expiry = new Date(todayDate.getTime());
+    if ( expireSecond )
+        expiry = new Date(todayDate.getTime() + expireSecond * 1000);
+
+    document.cookie = name + "=" + escape( value ) + "; path=/; " + ((expireSecond) ? "; expires=" + expiry.toGMTString() : "");
+
+}
+
+function f_getCookie(uName) {
+
+    var flag = document.cookie.indexOf(uName+'=');
+
+    if (flag != -1)
+    {
+
+        flag += uName.length + 1;
+        end = document.cookie.indexOf(';', flag);
+
+        if (end == -1)
+            end = document.cookie.length;
+
+        return unescape(document.cookie.substring(flag, end));
+
+    }
+
+}
+
+
+/*------------------------------------------------------------------------------------------*/
+/* NAME : f_browser_zoom()                                                                          */
+/* DESC : 브라우저 확대축소(차후에 팝업도 지원가능하도록 이곳에 작성함)                                        */
+/* DATE : 2009.6.18                                                                                     */
+/* AUTH : roh                                                                                               */
+/*------------------------------------------------------------------------------------------*/
+var cookie_nmae = "zoom_val";
+var curr_zoom_old = f_getCookie(cookie_nmae);
+
+function f_browser_zoom(gubun)
+{
+    
+    if( isIE() ) {
+            var rate = 10;
+            var max = 120;
+            var min = 100;
+            var curr_zoom = f_getCookie(cookie_nmae);
+
+            curr_zoom = parseInt(curr_zoom);
+
+            if ( isNaN(curr_zoom) )
+                curr_zoom = min;
+
+            curr_zoom_old = curr_zoom;
+
+            if ( gubun == 'in' )
+            {
+                curr_zoom = curr_zoom + rate;
+                if ( curr_zoom > max ) {
+                    curr_zoom = max;
+                    alert("현재 최대 크기입니다. ");
+                }
+            }
+            else if ( gubun == 'out' )
+            {
+                curr_zoom = curr_zoom - rate;
+                if ( curr_zoom < min ) {
+                    curr_zoom = min;
+                    alert("현재 최소 크기입니다. ");
+                }
+            }
+            else if ( gubun == 'default' )
+            {
+                curr_zoom = curr_zoom_old;
+            }
+            document.body.style.position ="relative";
+            document.body.style.zoom = curr_zoom + "%";
+
+            var body_w = $(document).width();
+            var win_w = $(window).width();
+            $(window).scrollLeft((body_w - win_w) / 2);
+
+            f_setCookie(cookie_nmae,curr_zoom, 365 * (60 * 60 * 24) );
+    }
+    else {
+        alert("※ 화면크기 조정은 Internet Explorer 8 / 9 / 10 버전에서만 지원되는 기능입니다. ※\n\n (IE 8 이상인 경우, F12를 클릭했을 때 나타나는 팝업창 상단 탭의 브라우저 모드와 문서 모드가 IE 8 / 9 / 10 이어야 합니다.)");
+    }
+    return false;
+
+}
+
+/*------------------------------------------------------------------------------------------*/
+/* NAME : f_login_check                                                                             */
+/* DESC : 사법 GPKI 인증서 검증전 로그인 여부 체크                                                                 */
+/* DATE : 2012.10.18                                                                                        */
+/* AUTH : 박재흥                                                                                               */
+/*------------------------------------------------------------------------------------------*/
+function f_login_check(URL, sysid){
+        var vLoggedIn = "true";
+
+        if ( vLoggedIn == "false" ) {   // 비로그인일경우
+            if (sysid == "I") {
+                alert("인증서 로그인 후 이용해 주시기 바랍니다.");
+            }
+            else {
+                alert("로그인 후 이용해 주시기 바랍니다.");
+            }
+            document.location.href= "/re1/intro.jsp?smsgubun=N&sysid=" +sysid+ "&rUrl=" +URL;
+            return false;
+        }
+        else{
+            document.location.href= URL;
+        }
+}
+/*----------------------------------------------------------------------------*/
+/* NAME : f_xecureLoginCheck()                                                */
+/* DESC : 로그인 체크 후 해당 Xecure URL로 이동                               */
+/* DATE : 2015.07.15                                                          */
+/* AUTH : 오대성                                                              */
+/*----------------------------------------------------------------------------*/
+function f_xecureLoginCheck(URL, sysid){
+    var vLoggedIn = "true";
+
+    if ( vLoggedIn == "false" ) {   // 비로그인일경우
+        if (sysid == "I") {
+            alert("인증서 로그인 후 이용해 주시기 바랍니다.");
+        }
+        else {
+            alert("로그인 후 이용해 주시기 바랍니다.");
+        }
+        // intro.jsp에서 Xecure Submit을 하기위한 파라미터 추가(l=1)
+        document.location.href= "/re1/intro.jsp?smsgubun=N&l=1&sysid=" +sysid+ "&rUrl=" +URL;
+      return false;
+    }else{
+        if (URL.indexOf("EZ1GetWriteApplCnfmListC") > -1 ) {    //전자신청 서명
+            gotoURL = URL;
+            
+            XecureURL(gotoURL, f_goMenuUrl);
+        } else if(URL.indexOf("FOPTIsuView.dev") > -1) {
+        	gotoURL = URL;
+            
+            XecureURL(gotoURL, f_goMenuUrl);
+        }
+        else {
+            document.location.href= URL;
+        }
+    }
+}
+/*----------------------------------------------------------------------------*/
+/* NAME : f_eApplication()                                                        */
+/* DESC : 전자신청 / e-Form 신청 클릭 시 로그인 유무에 따른 navigation 설정                */
+/* DATE : 2013.12.24                                                          */
+/* AUTH : 임성범                                                              */
+/*----------------------------------------------------------------------------*/
+function f_eApplication(sysID, rcCls) {
+
+    var vLoggedIn = "true";
+
+
+    if ( vLoggedIn == "false" ) {   // 비로그인일경우 각각의 메인 페이지로 이동시킨다.
+        if ( sysID == "I" ) {
+            url = "/re1/EURIndex.jsp?rc_cls=" +rcCls;
+        }
+        else if ( sysID == "E" ){
+            url = "/re1/eFormIndex.jsp?rc_cls=" +rcCls;
+        }
+		else if ( sysID == "H" ){
+            //법인인감증명서 발급사실 등 문자전송 서비스 개선 2017.08.31 이종진 (2017-W00408)
+            alert( SEZ01134 ); //script.EZ1Msg.SEZ01134 = 로그인 후 이용해 주시기 바랍니다.
+            url = "/re1/intro.jsp?sysid=E&rc_cls=" +rcCls+ "&l=2&rUrl=/efrontservlet?cmd=EC7WriteSealImpSmsServiceC";
+        }
+    } else {    //로그인 시
+        if ( sysID == "I" ) {
+            if ( rcCls == "R" ) {
+                url = "/efrontservlet?cmd=ER1GetRegingStatusC&amp;work_cls=I";
+            }
+            else if ( rcCls == "C" ) {
+                url = "/efrontservlet?cmd=EC2GetBfPayListC&amp;work_cls=I";
+            }
+            else {
+                url = "/d3/ed3/ed3RetrieveWriteApplStatList.dev?work_cls=I";
+            }
+        }
+        else if ( sysID == "E" ){
+            if ( rcCls == "R" ) {
+                url = "/efrontservlet?cmd=ER1GetRegingStatusC&amp;work_cls=E";
+            }
+            else if ( rcCls == "C" ) {
+                url = "/efrontservlet?cmd=EC2GetBfPayListC&amp;work_cls=E";
+            }
+            else {
+                url = "/d3/ed3/ed3RetrieveWriteApplStatList.dev?work_cls=E";
+            }
+        }
+		//법인 인감증명서 발급사실 등 문자전송 서비스 신청 메뉴 추가로 인한 수정 2015.11.24 홍길하 (2015-W00503)
+		else if ( sysID == "H" ){
+
+            url = "/efrontservlet?cmd=EC7WriteSealImpSmsServiceC&amp;work_cls=I";
+            
+            XecureURL(url, f_xecureurl_callback);
+			return false;
+
+
+        }
+    }
+    document.location.href= url;
+}
+
+/*----------------------------------------------------------------------------*/
+/* NAME : f_xecureurl_callback()                                              */
+/* DESC : XecureURL 호출 후 수행되는 callback 함수                                   */
+/* DATE : 2017.02.06                                                          */
+/* AUTH : 강명진                                                                       */
+/*----------------------------------------------------------------------------*/
+function f_xecureurl_callback(aURL) {
+	document.location.href= aURL;
+}
+/* 통합전자등기 신규 추가 장영혁 시작 */
+/*----------------------------------------------------------------------------*/
+/* NAME : f_New_LoginChk()                                                   */
+/* DESC : 로그인을 체크한다.                                                  */
+/* DATE : 2016.12.11                                                          */
+/* AUTH : Jerry Youn                                                          */
+/*----------------------------------------------------------------------------*/
+function f_New_LoginChk(URL){
+
+    var vLoggedIn = "true";
+
+    if ( vLoggedIn == "false" ) {   // 비로그인일경우
+    	if (URL == '/r3/selectApplNotiMngList.do'||
+        		URL == '/r3/selectSbmtWaitList.do'){
+        		document.frm_b112Menu.action = "/b112" + URL+"?rs=I";
+     	}else {
+     		document.frm_b112Menu.action = "/b112" + URL+"?rs=RS";
+     	}
+         if (URL == "/csd/selectCausDeedList.do"||
+         	URL == '/r2/selectBatchSignList.do'){//지원관리
+         	
+         	XecureSubmit(document.frm_b112Menu);
+         }else{
+         	document.frm_b112Menu.submit();
+         }
+     }else if(URL == "/r2/selectBatchSignList.do"||//신청사항 확인 및 전자서명
+     		URL == "/csd/selectCausDeedList.do"){//지원관리
+     	
+     	document.frm_b112Menu.action = "/b112" + URL+"?rs=I";
+     	XecureSubmit(document.frm_b112Menu);
+     
+     }else {        
+     	document.frm_b112Menu.action = "/b112" + URL+"?rs=I";
+      document.frm_b112Menu.submit();
+    }
+}
+/*----------------------------------------------------------------------------*/
+/* NAME : f_New_XecureSubmit()                                                */
+/* DESC : 로그인을 체크한다.                                                  */
+/* DATE : 2016.12.11                                                          */
+/* AUTH : Jerry Youn                                                          */
+/*----------------------------------------------------------------------------*/
+function f_New_XecureSubmit(URL){
+
+    document.frm_b112Menu.action = vvCurrentUrl1 + URL.substring(1,URL.length);        
+    XecureSubmit(document.frm_b112Menu);
+}
+/*----------------------------------------------------------------------------*/
+/* NAME : f_chk_sihum()                                                       */
+/* DESC : 접근불가 메뉴 처리                                                  */
+/* DATE : 2016.12.11                                                          */
+/* AUTH : 장영혁                                                              */
+/*----------------------------------------------------------------------------*/
+function f_chk_sihum(vUrl){
+    alert("시험운영 대상이 아닙니다.");
+    return;
+}
+/* 통합전자등기 신규 추가 장영혁 종료 */
+
+
+	/*----------------------------------------------------------------------------*/
+	/* NAME : f_goMEMaddmembModify_topmenu()                                   */
+	/* DESC : 알림톡서비스대상자 회원정보수정화면으로 이동                                                                                                       */
+	/* DATE : 2018.12.06  (분석서 2018-W00467)                                  */
+	/*----------------------------------------------------------------------------*/	   
+    function f_goMEMaddmembModify_topmenu(){   
+    XecureURL("/pos1/pfrontservlet?cmd=PMEMGetMembInfoC", f_goMenuUrl);
+   }
+
+	/*----------------------------------------------------------------------------*/
+	/* NAME : f_notifPopUp()                                                    */
+	/* DESC : 알림톡 서비스 안내  공지 대상자  팝업창 오픈                       */
+	/* DATE : 2018.12.12  (분석서 2018-W00467)                                  */
+	/*----------------------------------------------------------------------------*/	    
+ function f_notifPopUp() {
+ 	
+ 	
+ 	   var left = window.screenLeft+100;  
+     var top  = window.screenTop+50;
+    
+     var notifUrl = "";
+     notifUrl = document.location.href; 
+
+	  if (f_getCookie("notifPopup") != "noReopen") { 
+		  if (f_getCookie("notifPopup") != "sevenReopen") {
+          	if(!(notifUrl.indexOf("/efd/") > -1 ||notifUrl.indexOf("/ifis/") > -1 )) { 
+	     		 			window.open('/pos1/jsp/mem/PMEMNotifMobileNoticeJ.jsp','new','top='+top+',left='+left+',width=560,height=455,toolbar=no,scrollbars=no,resizable=yes,status=no,titlebar=no,menubar=no,location=no');	
+            }
+	      }
+	   }   
+    
+ }  
+ 
+
+
+//]]>
+</script>
+
+<div id="AnySign4PCLoad"><div id="AnySign4PCLoadingImg_overlay" style="left: 0px; top: 0px; width: 100%; height: 100%; margin-left: 0px; position: fixed; z-index: 530100; cursor: auto; opacity: 0; background-image: none; background-color: rgb(255, 255, 255);"></div><img id="AnySign4PCLoadingImg" style="left: 50%; top: 50%; width: auto; height: auto; margin-left: -30px; position: fixed; z-index: 531000;" src="http://www.iros.go.kr/anysign4PC/AnySign4PC/img/loader.gif"></div>
+<div id="Lheader"><!-- START Lheader -->
+        <div class="header_wrap"> <!-- header_wrap -->
+            <div id="header"> <!-- header -->
+
+            <!-- 2013.12.6 -->
+            <div class="tnbs" id="contentTnbs"> <!-- tnbs -->
+                <ul>
+                    <li><a href="#head_gnb">상단주메뉴</a></li>
+                    <li><a href="#leftSection">좌측서브메뉴</a></li>
+                    <li><a href="#Lcontent">본문바로가기</a></li>
+                </ul>
+            </div>
+            <div class="tnbs" id="mainTnbs" style="display: none;">
+                <ul>
+                    <li><a href="#head_gnb">상단주메뉴</a></li>
+                    <li><a href="#leftSection">좌측서브메뉴</a></li>
+                    
+                </ul>
+            </div> <!-- tnbs -->
+            <!-- // 2013.12.6 -->
+
+                <h1><a href="/PMainJ.jsp"><img alt="대한민국 법원 인터넷등기소" src="/iros/images/001/common/logo.gif"></a></h1>
+                <div class="head_gnb" id="head_gnb"> <!-- head_gnb -->
+                    <div class="global"> <!-- global -->
+                        <div class="r_global">
+                            <div class="site">
+                                <ul>
+                                
+                                    <li class="uTxt">박지환님</li>
+                                    <li><a onclick="javascript:gologout();return false;" href="javascript:void(0);">로그아웃</a></li>
+                                    <li><a onclick="javascript:f_login_check('/frontservletuhd?cmd=UEXTServiceCallListC','L'); return false;" href="javascript:void(0);">마이페이지</a></li>
+                                
+                                    <li><a href="/pos1/jsp/com/PCOMPSitemapH.jsp">사이트맵</a></li>
+                                    <li><a href="/pos1/html/eng/PEngRegistryIntroH.html">English</a></li>
+                                </ul>
+                            </div>
+                            <div class="m_size">
+                                <ul>
+                                    <li><a title="화면 확대/축소 기능을 사용하기 위해서는 F12를 클릭했을 때 나타나는 팝업창 상단 탭의 브라우저 모드와 문서 모드가 IE8 이상이어야 합니다." onclick="f_browser_zoom('out');" href="javascript:void(0);"><img alt="화면크기 축소" src="/iros/images/001/common/txt_m.gif"></a></li>
+                                    <li class="txt">화면크기</li>
+                                    <li><a title="화면 확대/축소 기능을 사용하기 위해서는 F12를 클릭했을 때 나타나는 팝업창 상단 탭의 브라우저 모드와 문서 모드가 IE8 이상이어야 합니다." onclick="f_browser_zoom('in');" href="javascript:void(0);"><img alt="화면크기 확대" src="/iros/images/001/common/txt_p.gif"></a></li>
+                                </ul>
+                            </div>
+                            <div class="search">
+                                <form name="search_form" onsubmit="return false;" action="/PMainJ.jsp" method="post">
+                                    <fieldset>
+                                        <legend>홈페이지 전체 검색</legend>
+                                        <label class="none" for="txt_srch_word"></label><input name="txt_srch_word" title="검색값 입력" class="input_top" id="txt_srch_word" style="width: 147px; -ms-ime-mode: active;" onkeyup="f_keyPressForSearchWord(event);" type="text">
+                                        <a onclick="javascript:f_srchWord();return false;" href="javascript:void(0);"><input type="image" alt="검색" src="/iros/images/001/common/btn_search.gif"></a>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div> <!-- // global -->
+                    <div class="gnb_div"> <!-- gnb_div -->
+                        <div class="gnb_area"> <!-- gnb_area -->
+                            <ul id="gnb">
+                                <li class="gnb01">              
+
+                                    <h2 class="t_h2">
+                                        <a href="/iris/index.jsp?isu_view=view"><strong>등기열람/발급</strong></a>
+                                    </h2>
+                                    
+                                    <div style="height: 288px; display: none;">
+                                        <p class="left">
+                                            <strong>등기열람/발급</strong>
+                                            <span><img alt="등기열람/발급" src="/iros/images/001/common/img_gnb1.gif"></span> 
+                                        </p>
+                                        <ul>
+                                            <li class="height_gnbline258">
+                                                <p class="p_h2"><strong>부동산</strong></p>
+                                                <ul>
+						    																			
+                                                    <li><a title="부동산 열람하기" href="/iris/index.jsp?isu_view=view">열람하기</a></li>
+                                                    <li><a title="부동산 발급하기" href="/iris/index.jsp?isu_view=isu">발급하기</a></li>
+                                                    
+                                                    <li><a title="부동산 미열람/미발급 보기" onclick="javascript:f_login_check('/frontservlet?cmd=RISURetrieveUnissuedListC','P'); return false;" href="javascript:void(0);">미열람/미발급 보기</a></li>
+                                                    <li><a title="부동산 발급확인하기" href="/frontservlet?cmd=RVINInputIsuChkNoC">발급확인하기</a></li>
+                                                    <li><a title="부동산 등기신청사건 처리현황" onclick="javascript:f_login_check('/frontservlet?cmd=REVTWelcomeEvtC','L'); return false;" href="javascript:void(0);">등기신청사건 처리현황</a></li>
+                                                    <li><a title="부동산 집행 등 전자제출용 발급" href="/frontservlet?cmd=RISUWelcomeIsuC&amp;elecCase=Y">집행 등 전자제출용 발급</a></li>
+                                                    <li><a title="부동산 폐쇄등기부 등 발급예약" href="/frontservlet?cmd=RIPAWelcomeIpaC">폐쇄등기부 등 발급예약</a></li>
+                                                    
+                                                    <li><a title="부동산거래 체크리스트" href="/b171/chk/selectView.do">부동산거래 체크리스트</a></li> 
+                                                    
+                                                    
+                                                    <li><a title="부동산소유현황" onclick="javascript:f_login_check('/rps/index.jsp','P'); return false;" href="javascript:void(0);">부동산소유현황</a></li> 
+                                                </ul>
+                                            </li>
+                                            <li class="height_gnbline258">
+                                                <p class="p_h2"><strong>법인</strong></p>
+                                                <ul>
+                                                    <li><a title="법인 열람하기" href="/ifrontservlet?cmd=IISUGetCorpFrmCallC">열람하기</a></li>
+                                                    <li><a title="법인 발급하기" href="/ifrontservlet?cmd=IISUGetCorpPrtFrmCallC">발급하기</a></li>
+                                                    
+                                                    <li><a title="법인 미열람/미발급 보기" onclick="javascript:f_login_check('/ifrontservlet?cmd=IUNVGetUnissueListCallC','P'); return false;" href="javascript:void(0);">미열람/미발급 보기</a></li>
+                                                    <li><a title="법인 발급확인하기" href="/ifrontservlet?cmd=IVINCrsComfirmCallMC">발급확인하기</a></li>
+                                                    <li><a title="법인 발급예약(30통 이상)" href="/ifrontservlet?cmd=IISUGetCorpMreFrmCallC">발급예약(30통 이상)</a></li>
+                                                    <li><a title="법인 등기신청사건 처리현황" onclick="javascript:f_login_check('/ifrontservlet?cmd=IEVTWelcomeEvtC','L'); return false;" href="javascript:void(0);">등기신청사건 처리현황</a></li>
+                                                    <li><a title="법인 상호찾기" href="/ifrontservlet?cmd=INSEWelcomeNseFrmC">상호찾기</a></li>
+                                                    <li><a title="법인 인감정보관리" onclick="javascript:f_login_check('/ifrontservlet?cmd=IPIBPreInputC','PL'); return false;" href="javascript:void(0);">인감정보관리</a></li>
+                                                    <li><a title="법인 발급예약(폐쇄등기부)" href="/ifrontservlet?cmd=IIPAWelcomeIpaC">발급예약(폐쇄등기부)</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="height_gnbline258">
+                                                <p class="p_h2"><strong>동산 · 채권담보</strong></p>
+                                                <ul>
+                                                    <li><a title="동산 · 채권담보 열람하기" href="/idis8/DISUWelcomeView.dev">열람하기</a></li>
+                                                    <li><a title="동산 · 채권담보 발급하기" href="/idis8/DISUWelcomeIsu.dev">발급하기</a></li>
+                                                    
+                                                    <li><a title="동산 · 채권담보 미열람/미발급 보기" onclick="javascript:f_login_check('/idis8/DUNVSelUnViewIsu.dev','P'); return false;" href="javascript:void(0);">미열람/미발급 보기</a></li>
+                                                    <li><a title="동산 · 채권담보 발급확인하기" href="/idis8/DVINInputIsuChkNo.dev">발급확인하기</a></li>
+                                                    <li><a title="동산 · 채권담보 등기신청사건 처리현황" onclick="javascript:f_login_check('/idis8/DEVTWelcomeEvt.dev','L'); return false;" href="javascript:void(0);">등기신청사건 처리현황</a></li>
+                                                    <li><a title="동산 · 채권담보 집행관 발급하기" href="/idis8/DISUChkZipOpen.dev">집행관 발급하기</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="height_gnbline258">
+                                                <p class="p_h2"><strong>기타</strong></p>
+                                                <ul>
+                                                    <li><a title="기타 발급확인하기" href="/tfrontservlet?cmd=TVINInputIsuChkNoC">발급확인하기</a></li>
+                                                    <li><a title="기타 등기신청사건 처리현황" onclick="javascript:f_login_check('/tfrontservlet?cmd=TEVTWelcomeEvtC','L'); return false;" href="javascript:void(0);">등기신청사건 처리현황</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                
+                                <li class="gnb02">              
+                                <!--통합전자등기 메뉴 일괄 개편으로 인한 변경. 2019.01.07. 이종진  2019-W00023 -->
+                                    <h2 class="t_h2"><a onclick="javascript:f_New_LoginChk('/r2/selectNewMain.do'); return false;" href="javascript:void(0);"><strong>등기신청</strong></a></h2>
+                                    <div style="height: 250px; display: none;">
+                                        <p class="left">
+                                            <strong>등기신청</strong>
+                                            <span><img alt="등기신청" src="/iros/images/001/common/img_gnb2.gif"></span> 
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <p class="p_h2">
+                                                    <strong>부동산</strong>
+                                                </p>
+                                                <!--부동산통합전자신청메뉴구성 시작-->
+												<ul>
+													<li class="menu_back">
+														<a title="부동산 신청관리" onclick="javascript:f_New_LoginChk('/r2/selectApplCsInq.do'); return false;" href="javascript:void(0);">신청관리</a>
+														<!--신청관리 서브메뉴 시작-->
+														<ul class="b112_sub_menu" style="top: 35px; display: none;">
+															<li><a title="부동산 신청현황" onclick="javascript:f_New_LoginChk('/r2/selectApplCsInq.do'); return false;" href="javascript:void(0);">신청현황</a></li>
+															<li><a title="부동산 신청사항 확인 및 전자서명" onclick="javascript:f_New_LoginChk('/r2/selectBatchSignList.do'); return false;" href="javascript:void(0);">신청사항 확인 및 전자서명</a></li>
+														</ul>
+														<!--신청관리 서브메뉴 끝-->
+													</li>
+													<li class="menu_back">
+														<a title="부동산 작성관리" onclick="javascript:f_New_LoginChk('/r3/selectPrgsApfrmWrtCs.do'); return false;" href="javascript:void(0);">작성관리</a>
+														<!--작성관리 서브메뉴 시작-->
+														<ul class="b112_sub_menu" style="top: 62px; display: none;">
+															<li><a title="부동산 작성현황" onclick="javascript:f_New_LoginChk('/r3/selectPrgsApfrmWrtCs.do'); return false;" href="javascript:void(0);">작성현황</a></li>
+															<li><a title="부동산 통지 및 승인관리" onclick="javascript:f_New_LoginChk('/r3/selectApplNotiMngList.do'); return false;" href="javascript:void(0);">통지 및 승인관리</a></li>
+															<li><a title="부동산 신청수수료관리" onclick="javascript:f_New_LoginChk('/r3/selectApplFeeBpayObjList.do'); return false;" href="javascript:void(0);">신청수수료관리</a></li>
+															<li><a title="부동산 제출관리" onclick="javascript:f_New_LoginChk('/r3/selectSbmtWaitList.do'); return false;" href="javascript:void(0);">제출관리</a></li>
+														</ul>
+														<!--작성관리 서브메뉴 끝-->
+													</li>
+													<li class="menu_back_none">
+														<a title="부동산 진행관리" onclick="javascript:f_New_LoginChk('/r4/selectApfrmHandlCont.do'); return false;" href="javascript:void(0);">진행관리</a>
+													</li>
+													<li class="menu_back_none">
+														<a title="부동산 완료후관리" onclick="javascript:f_New_LoginChk('/r5/selectEndAfMng.do'); return false;" href="javascript:void(0);">완료후관리</a>
+													</li>
+													<li class="menu_back">
+														<a title="부동산 지원관리" onclick="javascript:f_New_LoginChk('/csd/selectCausDeedList.do'); return false;" href="javascript:void(0);">지원관리</a>
+														<!--지원관리 서브메뉴 시작-->
+															
+															<ul class="b112_sub_menu" style="top: 23px; display: none;">
+														
+															<li><a title="부동산 원인증서관리" onclick="javascript:f_New_LoginChk('/csd/selectCausDeedList.do'); return false;" href="javascript:void(0);">원인증서관리</a></li>
+															<li><a title="부동산 사용자관리" onclick="javascript:f_New_LoginChk('/ur/openUserMng.do'); return false;" href="javascript:void(0);">사용자관리</a></li>
+															<li><a title="부동산 영구보존문서등록" onclick="javascript:f_New_LoginChk('/z1/selectEnrEtdoc.do'); return false;" href="javascript:void(0);">영구보존문서등록</a></li>
+															<li><a title="부동산 등기필정보관리" onclick="javascript:f_New_LoginChk('/rcm/selectERCMLapseJ.do'); return false;" href="javascript:void(0);">등기필정보관리</a></li>
+															
+															<li><a title="부동산 토지이용계획조회" onclick="javascript:f_New_LoginChk('/z3/selectEZ3LandUtnPlanInqJ.do'); return false;" href="javascript:void(0);">토지이용계획조회</a></li>
+															<li><a title="등록면허세 정액분 신고 새창으로 이동" onclick="javascript:window.open('https://www.wetax.go.kr/main/RegSingoTax.jsp','new','top=70,left=150,width=680,height=420,toolbar=no,scrollbars=no,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="javascript:void(0);">등록면허세 정액분 신고</a></li>
+															<li><a title="부동산 이의신청사건번호" onclick="javascript:f_New_LoginChk('/r6/selectER6FobjCaseNoInqJ.do'); return false;" href="javascript:void(0);">이의신청사건번호</a></li>
+															<li><a title="부동산 인지세 미사용 여부 확인" onclick="javascript:f_New_LoginChk('/r1/selectStpTaxUnUsedEvid.do'); return false;" href="javascript:void(0);">인지세 미사용 여부 확인</a></li>
+														</ul>
+														<!--지원관리 서브메뉴 끝-->
+													</li>
+													<li class="menu_back">
+														<a title="부동산 자주 사용하는 정보" onclick="javascript:f_New_LoginChk('/z2/selectRgsTypeList.do'); return false;" href="javascript:void(0);">자주 사용하는 정보</a>
+														<!--자주 사용하는 정보 서브메뉴 시작-->
+														<ul class="b112_sub_menu" style="top: 53px; display: none;">
+															<li><a title="등기유형" onclick="javascript:f_login_check('/b112/z2/selectRgsTypeList.do?rc_cls=R','E'); return false;" href="javascript:void(0);">등기유형</a></li>
+															<li><a title="등기소" onclick="javascript:f_login_check('/b112/z2/selectRgsList.do?rc_cls=R','E'); return false;" href="javascript:void(0);">등기소</a></li>
+															<li><a title="법인" onclick="javascript:f_login_check('/b112/z2/selectCorpList.do?rc_cls=R','E'); return false;" href="javascript:void(0);">법인</a></li>
+															<li><a title="첨부서면" onclick="javascript:f_login_check('/b112/z2/selectAttachDocList.do?rc_cls=R','E'); return false;" href="javascript:void(0);">첨부서면</a></li>
+															<li><a title="권리자" onclick="javascript:f_login_check('/b112/z2/selectRightPrsList.do?rc_cls=R','E'); return false;" href="javascript:void(0);">권리자</a></li>
+															<li><a title="의무자" onclick="javascript:f_login_check('/b112/z2/selectDebtorList.do?rc_cls=R','E'); return false;" href="javascript:void(0);">의무자</a></li>
+														</ul>
+														<!--자주 사용하는 정보 서브메뉴 끝-->
+													</li>
+												</ul>
+												<!--부동산통합전자신청메뉴구성 끝-->
+                                            </li>
+  											<!--부동산통합전자신청 서브메뉴공간 시작-->
+											<li style="background-color: rgb(241, 241, 241);"></li>
+											<!--부동산통합전자신청 서브메뉴공간 끝-->
+                                            
+                                            <li>
+                                                <p class="p_h2"><strong>법인</strong></p>
+                                                <ul>
+                                                    <li><a title="법인 전자신청하기" onclick="javascript:f_eApplication('I', 'C'); return false;" href="javascript:void(0);">전자신청하기</a></li>
+                                                    <li><a title="법인 e-Form 신청하기" onclick="javascript:f_eApplication('E', 'C'); return false;" href="javascript:void(0);">e-Form 신청하기</a></li>
+
+                                                    <li><a title="법인 인감증명서 발급사실 등 문자전송 서비스 신청" onclick="javascript:f_eApplication('H', 'C'); return false;" href="javascript:void(0);">인감증명서 발급사실 등 문자전송 서비스 신청</a></li>
+                                                    <li><a title="법인 온라인 인감신고" onclick="javascript:f_login_check('/efrontservlet?cmd=EC5RecvSealImpListC','E'); return false;" href="javascript:void(0);">온라인 인감신고</a></li>             
+                                                    
+                                                    <li><a title="등록면허세 정액분 신고 새창으로 이동" onclick="javascript:window.open('https://www.wetax.go.kr/main/RegSingoTax.jsp','new','top=70,left=150,width=680,height=420,toolbar=no,scrollbars=no,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="javascript:void(0);">등록면허세 정액분 신고</a></li>
+                                                    <li><a title="법인 자주 사용하는 정보" onclick="javascript:f_login_check('/b112/z2/selectRgsTypeList.do?rc_cls=C','E'); return false;" href="javascript:void(0);">자주 사용하는 정보</a></li><!--통합전자등기 메뉴 일괄 개편으로 인한 변경. 링크정보 변경 2019.01.07. 이종진 2019-W00023 -->
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <p class="p_h2"><strong>동산 · 채권담보</strong></p>
+                                                <ul>
+                                                    <li><a title="동산 · 채권담보 전자신청" onclick="javascript:f_eApplication('I', 'D'); return false;" href="javascript:void(0);">전자신청</a></li>
+                                                    <li><a title="동산 · 채권담보 e-Form 신청" onclick="javascript:f_eApplication('E', 'D'); return false;" href="javascript:void(0);">e-Form 신청</a></li>
+                                                    <li><a title="동산 · 채권담보 목적물 목록 작성" onclick="javascript:f_login_check('/d0/ed0/ed0RetrieveCerRegReaWriteList.dev?work_cls=E','E'); return false;" href="javascript:void(0);">담보목적물 목록 작성</a></li>
+                                                    
+                                                    <li><a title="등록면허세 정액분 신고 새창으로 이동" onclick="javascript:window.open('https://www.wetax.go.kr/main/RegSingoTax.jsp','new','top=70,left=150,width=680,height=420,toolbar=no,scrollbars=no,resizable=yes,status=no,titlebar=yes,menubar=no,location=no' ); return false;" href="javascript:void(0);">등록면허세 정액분 신고</a></li>
+                                                    <li><a title="동산 · 채권담보 자주 사용하는 정보" onclick="javascript:f_login_check('/d4/ed4/ed4RetrieveFUIRgsType.dev?rc_cls=D','E'); return false;" href="javascript:void(0);">자주 사용하는 정보 </a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="gnb03">              
+                                    <h2 class="t_h2"><a href="/ep/jsp/ePayMain.jsp"><strong>전자납부</strong></a></h2>
+                                    <div style="height: 250px; display: none;">
+                                        <p class="left">
+                                            <strong>전자납부</strong>
+                                            <span><img alt="전자납부" src="/iros/images/001/common/img_gnb3.gif"></span> 
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <p class="p_h2"><strong>부동산</strong></p>
+                                                <ul>
+                                                    <li><a title="부동산 등기신청수수료 전자납부" onclick="javascript:f_login_check('/bfrontservlet?cmd=BR1GetPayStandbyListC&amp;work_cls=E','E'); return false;" href="javascript:void(0);">등기신청수수료 전자납부</a></li>
+                                                    <!--통합전자등기 메뉴 일괄 개편으로 인한 변경. 링크 정보 변경 2019.01.07. 이종진 2019-W00023 -->
+                                                    <li><a title="부동산 자주 사용하는 정보" onclick="javascript:f_login_check('/b112/z2/selectRgsList.do?rc_cls=ER','E'); return false;" href="javascript:void(0);">자주 사용하는 정보</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <p class="p_h2"><strong>법인</strong></p>
+                                                <ul>
+                                                    <li><a title="법인등기신청수수료 전자납부" onclick="javascript:f_login_check('/bfrontservlet?cmd=BC1GetPayStandbyListC&amp;work_cls=E','E'); return false;" href="javascript:void(0);">등기신청수수료 전자납부</a></li>
+                                                    <li><a title="법인인감카드 및 전자증명서 발급수수료 전자납부" onclick="javascript:f_login_check('/bfrontservlet?cmd=BH1GetPayStandbyListC&amp;work_cls=E','E'); return false;" href="javascript:void(0);">인감카드 및 전자증명서<span>발급수수료 전자납부</span></a></li>
+                                                    <!--통합전자등기 메뉴 일괄 개편으로 인한 변경. 링크 정보 변경 2019.01.07. 이종진 2019-W00023 -->
+                                                    <li><a title="법인 자주 사용하는 정보" onclick="javascript:f_login_check('/b112/z2/selectRgsList.do?rc_cls=EC','E'); return false;" href="javascript:void(0);">자주 사용하는 정보</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <p class="p_h2"><a href="#"><strong>동산 · 채권담보</strong></a></p>
+                                                <ul>
+                                                    <li><a title="동산 · 채권담보등기 신청수수료 전자납부" onclick="javascript:f_login_check('/bfrontservlet?cmd=BD1GetPayStandbyListC&amp;work_cls=E','E'); return false;" href="javascript:void(0);">등기신청수수료 전자납부</a></li>
+                                                    <!--통합전자등기 메뉴 일괄 개편으로 인한 변경. 링크 정보 변경 2019.01.07. 이종진 2019-W00023 -->
+                                                    <li><a title="동산 · 채권담보 자주 사용하는 정보" onclick="javascript:f_login_check('/b112/z2/selectRgsList.do?rc_cls=ED','E'); return false;" href="javascript:void(0);">자주 사용하는 정보</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <p class="p_h2"><a href="#"><strong>기타</strong></a></p>
+                                                <ul>
+                                                    <li><a title="기타 등기신청수수료 전자납부" onclick="javascript:f_login_check('/bfrontservlet?cmd=BE1GetPayStandbyListC&amp;work_cls=E','E'); return false;" href="javascript:void(0);">등기신청수수료 전자납부</a></li>
+                                                    <!--통합전자등기 메뉴 일괄 개편으로 인한 변경. 링크 정보 변경 2019.01.07. 이종진 2019-W00023 -->
+                                                    <li><a title="기타 자주 사용하는 정보" onclick="javascript:f_login_check('/b112/z2/selectRgsList.do?rc_cls=EE','E'); return false;" href="javascript:void(0);">자주 사용하는 정보 </a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-- 확정일자 메뉴추가 한문희(20150518) start -->
+ 
+                                <li class="gnb06">
+                                    <h2 class="t_h2"><a href="/efd/com/EfdMain.jsp"><strong>확정일자</strong></a></h2>
+                                    <div style="display: none;">
+                                        <p class="left">
+                                            <strong>확정일자</strong>
+                                            <span><img alt="확정일자" src="/iros/images/001/common/img_gnb6_1.gif"></span> 
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <p class="p_h2"><strong>신청하기</strong></p>
+                                                <ul>
+                                                    <li><a title="확정일자 신청서 작성 및 제출" onclick="javascript:f_login_check('/efd/EAPLApfrmListInq.dev','L'); return false;" href="javascript:void(0);">신청서 작성 및 제출</a></li>
+                                                    
+                                                    <li><a title="확정일자 신청처리내역 조회" onclick="javascript:XecureURL('/efd/EHNLRetrieveWriteApplList.dev',f_goMenuUrl); return false;" href="#0">신청처리내역 조회</a></li>
+                                                    <li><a title="확정일자 수수료 결제내역보기" onclick="javascript:f_login_check('/efd/EPAYPayList.dev','L'); return false;" href="javascript:void(0);">수수료 결제내역보기</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <p class="p_h2"><strong>계약증서</strong></p>
+                                                <ul>
+                                                    <li><a title="확정일자 발급하기" onclick="javascript:f_xecureLoginCheck('/ifis/FOPTIsuView.dev','L'); return false;" href="javascript:void(0);">발급하기</a></li>
+                                                    <li><a title="확정일자 미발급내역 보기" onclick="javascript:f_login_check('/ifis/FOPTSelUnIsuView.dev','L'); return false;" href="javascript:void(0);">미발급내역 보기</a></li>
+                                                    <li><a title="확정일자 재출력하기" onclick="javascript:f_login_check('/ifis/FOPTRePrint.dev','L'); return false;" href="javascript:void(0);">재출력하기</a></li>
+                                                    <li><a title="확정일자 발급내역보기" onclick="javascript:f_login_check('/ifis/FUNIInputUniSpec.dev?svc_cls=ISU','L'); return false;" href="javascript:void(0);">발급내역보기</a></li>
+                                                    
+                                                    <li><a title="확정일자 발급확인하기" onclick="javascript:XecureURL('/ifis/FCFMIsuChkNumView.dev',f_goMenuUrl); return false;" href="javascript:void(0);">발급확인하기</a></li>
+                                                </ul>
+                                             </li>
+                                            <li>
+                                                <p class="p_h2"><strong>정보제공</strong></p>
+                                                <ul>
+                                                    
+                                                    <li><a title="확정일자 열람하기" onclick="javascript:XecureURL('/ifis/FISUWelcome.dev',f_goMenuUrl); return false;" href="#0">열람하기</a></li>
+                                                    <li><a title="확정일자 미열람 보기" onclick="javascript:f_login_check('/ifis/FUNVSelUnView.dev','P'); return false;" href="javascript:void(0);">미열람 보기</a></li>
+                                                    <li><a title="확정일자 재열람하기" onclick="javascript:f_login_check('/ifis/FREVSelReview.dev','P'); return false;" href="javascript:void(0);">재열람하기</a></li>
+                                                    <li><a title="확정일자 열람내역보기" onclick="javascript:f_login_check('/ifis/FUNIInputUniSpec.dev','P'); return false;" href="javascript:void(0);">열람내역보기</a></li>
+                                                </ul>
+                                            </li>
+                                                                                    
+                                            </ul>
+                                    </div>
+                                </li>
+ 
+                                <!-- 확정일자 메뉴추가 한문희(20150518) end -->   
+
+                                
+                                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+      
+      
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+          
+        
+        
+        
+      
+
+      
+      
+        
+          
+            
+            
+            
+          
+            <li class="gnb04">
+              <h2 class="t_h2"><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004001" target="_self"><strong>서비스 소개</strong></a></h2>
+              <div style="height: 250px; display: none;">
+                <p class="left">
+                  <strong>서비스 소개</strong>
+                  <span><img alt="" src="/iros/images/001/common/img_gnb4.gif"></span>
+                </p>
+                <ul>
+        
+
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004001" target="_self"><strong>등기소소개</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004002001001" target="_self"><strong>등기서비스</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+            
+              
+                    <ul>
+                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004002001001" target="_self">서비스개요</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004002002001" target="_self">부동산등기</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004002003001" target="_self">법인등기</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004002004001" target="_self">동산·채권담보등기</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004002005001" target="_self">기타등기</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004002006" target="_self">유한책임신탁등기</a></li>
+                    </ul>
+                
+                
+              
+                  </li>
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/pfrontservlet?cmd=PCMS6GetBoardC&amp;menuid=001004003001&amp;boardTypeID=2" target="_self"><strong>알림마당</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+          
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+            
+              
+                    <ul>
+                      <li><a href="/pos1/pfrontservlet?cmd=PCMS6GetBoardC&amp;menuid=001004003001&amp;boardTypeID=2" target="_self">공지사항</a></li>
+                    </ul>
+                
+                
+              
+                  </li>
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004004" target="_self"><strong>서비스이용시간안내</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+                  <li class="ab1">
+            
+            
+            
+            
+            
+            
+            
+          
+                    <p class="p_h2"><a href="/pos1/pfrontservlet?cmd=PINFSrchRegtC" target="_self"><strong>전국 등기소 안내</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+          
+        
+        
+        
+      
+
+      
+      
+        
+          
+            
+            
+            
+              
+                    <ul>
+                      <li><a href="/pos1/pfrontservlet?cmd=PINFSrchRegtC" target="_self">등기소찾기</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001004005002" target="_self">무인발급기위치</a></li>
+                    </ul>
+                
+                
+              
+                  </li>
+                </ul>
+              </div>
+            </li>
+            
+          
+            <li class="gnb05">
+              <h2 class="t_h2"><a href="/pos1/pfrontservlet?cmd=PCMS6GetBoardC&amp;menuid=001005001&amp;boardTypeID=4&amp;category=자주쓰는신청양식" target="_self"><strong>자료센터</strong></a></h2>
+              <div style="height: 250px; display: none;">
+                <p class="left">
+                  <strong>자료센터</strong>
+                  <span><img alt="" src="/iros/images/001/common/img_gnb5.gif"></span>
+                </p>
+                <ul>
+        
+
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+          
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/pfrontservlet?cmd=PCMS6GetBoardC&amp;menuid=001005001&amp;boardTypeID=4&amp;category=자주쓰는신청양식" target="_self"><strong>등기신청양식</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+          
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/pfrontservlet?cmd=PCMS6GetBoardC&amp;menuid=001005002&amp;boardTypeID=6" target="_self"><strong>첨부서면예시</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/pfrontservlet?cmd=PTRMGetListRgsTrmC" target="_self"><strong>등기용어해설</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005007" target="_self"><strong>프로그램설치</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+        
+          
+        
+      
+
+      
+      
+        
+
+        
+
+
+        
+          
+          
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+          
+        
+        
+        
+      
+
+      
+      
+        
+          
+        
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+            
+              
+                    <ul>
+                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005007001" target="_self">보안</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005007002" target="_self">자바런타임</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005007003" target="_self">등기부검증</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005007004" target="_self">전자증명서</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005007005" target="_self">스캔</a></li>                      <li><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005007006" target="_self">문서확인 및 등록</a></li>
+                    </ul>
+                
+                
+              
+                  </li>
+            
+          
+
+          
+          
+            
+            
+                  <li class="ab1">
+            
+            
+            
+            
+            
+            
+          
+                    <p class="p_h2"><a href="https://glaw.scourt.go.kr" target="_blank"><strong>등기관련법규(예규·선례등)</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+                  <li class="ab4">
+            
+            
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/les/PLESSrchMapJ.jsp" target="_self"><strong>소액임차인의 범위 등 안내</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+          
+        
+        
+        
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+                  <li class="ab2">
+            
+            
+            
+            
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/cms6/web1/view.jsp?menuid=001005006" target="_self"><strong>전산화백서</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+          
+        
+        
+        
+      
+
+      
+      
+        
+          
+            
+            
+                  </li>
+                </ul>
+              </div>
+            </li>
+            
+            
+          
+            <li class="gnb00">
+              <h2 class="t_h2"><a href="/pos1/jsp/mem/PMEMRisStMoveHidden.jsp?select_id=001" target="_self"><strong>통 계</strong></a></h2>
+              <div style="height: 250px; display: none;">
+                <p class="left">
+                  <strong>통 계</strong>
+                  <span><img alt="" src="/iros/images/001/common/img_gnb0.gif"></span>
+                </p>
+                <ul>
+        
+
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/mem/PMEMRisStMoveHidden.jsp?select_id=001" target="_self"><strong>통계 설명</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/mem/PMEMRisStMoveHidden.jsp?select_id=002" target="_self"><strong>부동산등기</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/mem/PMEMRisStMoveHidden.jsp?select_id=003" target="_self"><strong>법인등기</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+            
+                  <li>
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/mem/PMEMRisStMoveHidden.jsp?select_id=004" target="_self"><strong>확정일자</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        
+        
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+        
+          
+        
+      
+
+
+      
+      
+        
+        
+          
+        
+        
+      
+
+      
+      
+        
+
+        
+          
+            
+                  </li>
+            
+            
+          
+
+          
+          
+            
+            
+            
+            
+            
+            
+                  <li class="ab1">
+            
+            
+          
+                    <p class="p_h2"><a href="/pos1/jsp/mem/PMEMRisStMoveHidden.jsp?select_id=005" target="_self"><strong>전체다운로드(분기)</strong></a></p>
+        
+
+
+        
+      
+
+     
+
+    
+  
+
+
+
+
+  
+  
+                  </li>
+                </ul>
+              </div>
+            </li>
+  
+  
+
+
+                                
+                                                            </ul>
+                        </div> <!-- // gnb_area -->
+                        
+						
+                        <div class="my_gnb" id="mymenu"> <!-- my_gnb -->
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+							
+
+
+
+
+
+
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+//멀티건처리구분
+var vMultiYn = "N";
+
+
+
+/*-----------------------------------------------------------------------------*/
+/* NAME : f_openMyMenu()                                                        					*/
+/* DESC : 나의메뉴 목록 표시	    							                                        */
+/* DATE : 2013.12.13                                                            					    */
+/* AUTH : 임성범                                                               								        */
+/*------------------------------------------------------------------------------*/
+function f_openMyMenu() {
+
+
+
+	if ( document.getElementById("my_menu1").style.display == "none" && document.getElementById("my_menu2").style.display == "none") {
+		document.getElementById("my_menu1").style.display = "";
+		document.getElementById("my_menu2").style.display = "none";
+	}
+	else {	//클릭 시 목록이 열려져 있으면 닫는다.
+		f_closeMyMenu()
+	}
+}
+
+/*-----------------------------------------------------------------------------*/
+/* NAME : f_openDelMyMenu()                                                        				*/
+/* DESC : 나의메뉴 목록을 삭제하는 layer 표시	    							                     */
+/* DATE : 2013.12.13                                                            					    */
+/* AUTH : 임성범                                                               								        */
+/*------------------------------------------------------------------------------*/
+function f_openDelMyMenu() {
+
+	document.getElementById("my_menu1").style.display = "none";
+	document.getElementById("my_menu2").style.display = "";
+	document.getElementById("mybtn_delete").style.display = "";
+	document.getElementById("mybtn_edit").style.display = "none";
+
+	//체크박스초기화
+	fncChkInit();
+	vMultiYn = "Y";
+}
+ 
+function f_editMyMenu() {
+
+	document.getElementById("my_menu1").style.display = "none";
+	document.getElementById("my_menu2").style.display = "";
+	document.getElementById("mybtn_delete").style.display = "none";
+	document.getElementById("mybtn_edit").style.display = "";
+
+	//체크박스초기화
+	fncChkInit();
+	vMultiYn = "N";
+}
+
+ 
+/*-----------------------------------------------------------------------------*/
+/* NAME : f_openDelMyMenu()                                                        				*/
+/* DESC : 나의메뉴 목록을 삭제하는 layer 표시	    							                     */
+/* DATE : 2013.12.13                                                            					    */
+/* AUTH : 임성범                                                               								        */
+/*------------------------------------------------------------------------------*/
+function f_closeMyMenu() {
+	document.getElementById("my_menu1").style.display = "none";
+	document.getElementById("my_menu2").style.display = "none";
+}
+ 
+/*-----------------------------------------------------------------------------*/
+/* NAME : f_delMyMenu()                                                        		        		*/
+/* DESC : 선택한 나의메뉴를 삭제한다.   							                                   */
+/* DATE : 2013.12.13                                                            					    */
+/* AUTH : 임성범                                                               								        */
+/*------------------------------------------------------------------------------*/
+function f_delMyMenu() {
+ 	var check_cnt = 0;
+	var obj = document.getElementsByName("chk_menu_id");
+	if(obj.length == undefined) {
+  		if(obj.checked==true){
+  			check_cnt++ ;
+  		 }
+	} else {
+		for(var i=0;i<obj.length;i++){
+   			if(obj[i].checked==true) {
+   	  			check_cnt++ ;
+   			}
+	 	 }
+	} 	
+	
+    if(check_cnt == 0 ) {
+		alert("삭제하실 메뉴를 선택해주세요");
+		return;
+    }
+    else {
+	    if ( confirm( "해당 메뉴 바로가기를 삭제하시겠습니까?" ) ) {
+		    document.myMenyForm.action = "/pos1/pfrontservlet?cmd=PMEMRemoveMyMenuListC";
+		    document.myMenyForm.submit();
+	    }
+    }
+ }
+ 
+function fncChkInit() {
+	var obj = document.getElementsByName("chk_menu_id");
+	if(obj.length == undefined) {
+		obj.checked=false;
+		obj.value="N";
+		document.getElementById("hidden_chk").value = "N";
+	} else {
+		for(var i=0;i<obj.length;i++){
+   			obj[i].checked=false;
+   			obj[i].value="N";
+   			document.getElementById("hidden_chk"+i).value = "N";
+	 	 }
+	}
+}
+
+function chkClick(chk) {
+	var obj = document.getElementsByName("chk_menu_id");
+	if(obj.length == undefined) {
+  		if(obj!=chk){
+   			obj.checked=false;
+  		 }
+  		if(obj.checked) {
+   			document.getElementById("hidden_chk").value = "Y";
+  		} else {
+   			document.getElementById("hidden_chk").value = "N";
+  		}
+	} else {
+	  	if(vMultiYn=="N") {
+			for(var i=0;i<obj.length;i++){
+		  		if(obj[i]!=chk){
+		   			obj[i].checked=false;
+		  		 }
+		 	 }
+	  	} else {
+			for(var i=0;i<obj.length;i++){
+		  		if(obj[i].checked) {
+		   			document.getElementById("hidden_chk"+i).value = "Y";
+		  		} else {
+		   			document.getElementById("hidden_chk"+i).value = "N";
+		  		}
+		 	 }
+	  	}
+	}
+}
+
+
+
+function saveEditMenu() {
+
+    if ( confirm( "순서변경을 저장 하시겠습니까?" ) ) {
+	    document.myMenyForm.action = "/pos1/pfrontservlet?cmd=PMEMEditMyMenuListC";
+	    document.myMenyForm.submit();
+    }
+}
+
+function upfunction(){
+	//temp_menu_id 초기화
+	document.getElementById("hdn_temp_menu_id").value = "";
+	document.getElementById("hdn_temp_menu_nm").value = "";
+	var vCurMenuNm, vUpMenuNm;
+	var vCurMenuLab, vUpMenuLab;
+	
+	var obj = document.getElementsByName("chk_menu_id");
+	
+	if(obj.length != undefined) {
+	  	for(var i=0;i<obj.length;i++){
+	  		if(obj[i].checked){
+	  			if(i > 0) {
+	  	   			//Menu_id변경
+	  				document.getElementById("hdn_temp_menu_id").value = obj[i].value;
+	  	   			obj[i].value = obj[i-1].value;
+	  	   			obj[i-1].value = document.getElementById("hdn_temp_menu_id").value;
+	  	  	  		//체크이동
+	  	  	  		obj[i].checked=false;
+	  	  	  		obj[i-1].checked=true;
+	  	   			//HDN_Menu_ID변경
+	  	  			document.getElementById("hdn_temp_menu_id").value = document.getElementById("hdn_menu_id"+i).value;
+	  	   			document.getElementById("hdn_menu_id"+i).value = document.getElementById("hdn_menu_id"+(i-1)).value;
+	  	   			document.getElementById("hdn_menu_id"+(i-1)).value = document.getElementById("hdn_temp_menu_id").value;
+
+	  	   			//Menu_명변경
+	  	   			vCurMenuNm = "hdn_menu_nm"+i;
+	  	   			vUpMenuNm = "hdn_menu_nm"+(i-1);
+
+	  	  			document.getElementById("hdn_temp_menu_nm").value = document.getElementById(vCurMenuNm).value;
+	  	   			document.getElementById(vCurMenuNm).value = document.getElementById(vUpMenuNm).value;
+	  	   			document.getElementById(vUpMenuNm).value = document.getElementById("hdn_temp_menu_nm").value;
+
+	  	   			vCurMenuLab = "lab_menu_id"+i;
+	  	   			vUpMenuLab = "lab_menu_id"+(i-1);
+	  	   			document.getElementById(vCurMenuLab).innerHTML = document.getElementById(vCurMenuNm).value;
+	  	   			document.getElementById(vUpMenuLab).innerHTML = document.getElementById(vUpMenuNm).value;
+	  			}
+	  		 }
+	 	 }	
+	}
+}
+
+function downfunction(){
+	//temp_menu_id 초기화
+	document.getElementById("hdn_temp_menu_id").value = "";
+	document.getElementById("hdn_temp_menu_nm").value = "";
+	var vCurMenuNm, vDownMenuNm;
+	var vCurMenuLab, vDownMenuLab;
+	
+	var obj = document.getElementsByName("chk_menu_id");
+	
+	if(obj.length != undefined) {
+	  	for(var i=obj.length-1;i>=0;i--){
+	  		if(obj[i].checked){
+	  			if(i < (obj.length-1)) {
+	  	   			//Menu_id변경
+	  				document.getElementById("hdn_temp_menu_id").value = obj[i].value;
+	  	   			obj[i].value = obj[i+1].value;
+	  	   			obj[i+1].value = document.getElementById("hdn_temp_menu_id").value;
+	  	  	  		//체크이동
+	  	  	  		obj[i].checked=false;
+	  	  	  		obj[i+1].checked=true;
+	  	   			//HDN_Menu_ID변경
+	  	  			document.getElementById("hdn_temp_menu_id").value = document.getElementById("hdn_menu_id"+i).value;
+	  	   			document.getElementById("hdn_menu_id"+i).value = document.getElementById("hdn_menu_id"+(i+1)).value;
+	  	   			document.getElementById("hdn_menu_id"+(i+1)).value = document.getElementById("hdn_temp_menu_id").value;
+	  	   			//Menu_명변경
+	  	   			vCurMenuNm = "hdn_menu_nm"+i;
+	  	   			vDownMenuNm = "hdn_menu_nm"+(i+1);
+
+	  	  			document.getElementById("hdn_temp_menu_nm").value = document.getElementById(vCurMenuNm).value;
+	  	   			document.getElementById(vCurMenuNm).value = document.getElementById(vDownMenuNm).value;
+	  	   			document.getElementById(vDownMenuNm).value = document.getElementById("hdn_temp_menu_nm").value;
+
+	  	   			vCurMenuLab = "lab_menu_id"+i;
+	  	   			vDownMenuLab = "lab_menu_id"+(i+1);
+	  	   			document.getElementById(vCurMenuLab).innerHTML = document.getElementById(vCurMenuNm).value;
+	  	   			document.getElementById(vDownMenuLab).innerHTML = document.getElementById(vDownMenuNm).value;
+	  			}
+	  		 }
+	 	 }	
+	}
+}
+//]]>
+</script>
+
+
+				<p class="my_btn"><a onclick="javascript:f_openMyMenu();" href="javascript:void(0);"><img alt="나의메뉴" src="/iros/images/001/common/btn_mymenu.gif"></a></p>
+				
+				
+				<div class="my_boo1" id="my_menu1" style="display: none;"> <!-- my_boo1 -->
+					<div class="scroll_div"> <!-- scroll_div -->
+
+
+								
+					</div> <!-- // scroll_div -->
+					
+					<div class="bot" id="mybtn_default">
+						<span>
+							<a style="width: 77px !important; display: inline-block !important;" href="javascript:f_openDelMyMenu();"><img alt="메뉴삭제" src="/iros/images/001/common/btn_my1.gif"></a>
+							<a href="javascript:f_editMyMenu();"><img alt="순서변경" src="/iros/images/001/common/btn_my2.gif"></a>
+							<a href="javascript:f_closeMyMenu();"><img alt="닫기" src="/iros/images/001/common/btn_mymenu_close.gif"></a>
+						</span>
+					</div>
+				</div> <!-- my_boo1 -->
+				
+						
+						
+				
+				<div class="my_boo1" id="my_menu2" style="display: none;"> <!-- my_boo1 -->
+					<form name="myMenyForm" action="/PMainJ.jsp" method="post">
+					<input name="menu_id" type="hidden">         
+					<!-- Temp menu_id, menu_nm, menu_lab -->
+					<input name="hdn_temp_menu_id" id="hdn_temp_menu_id" type="hidden">
+					<input name="hdn_temp_menu_nm" id="hdn_temp_menu_nm" type="hidden">
+					
+					<div class="scroll_div"> <!-- scroll_div -->
+
+
+								
+					</div> <!-- // scroll_div -->
+					<div class="bot" id="mybtn_delete">
+						<div class="right"><a href="javascript:f_delMyMenu();"><img alt="선택삭제" src="/iros/images/001/common/my_del.gif"></a></div>
+					</div>
+					<div class="bot" id="mybtn_edit" style="display: none;">
+						<div class="left">
+							<a onclick="upfunction();" href="javascript:void(0)"><img alt="위로" src="/iros/images/001/common/btn_my3.gif"></a>
+							<a onclick="downfunction();" href="javascript:void(0)"><img alt="아래로" src="/iros/images/001/common/btn_my4.gif"></a>
+						</div>
+						<div class="right"><a onclick="saveEditMenu();" href="javascript:void(0)"><img alt="저장" src="/iros/images/001/common/my_save.gif"></a></div>
+					</div> 
+					</form>
+				</div> <!-- my_boo1 -->
+				
+
+                        </div> <!-- // my_gnb -->
+                        
+                    </div> <!-- //gnb_div -->
+                </div> <!-- head_gnb -->
+            </div> <!-- // header -->
+        </div> <!-- // header_wrap -->
+
+
+<!--로그아웃처리를 위하여 추가함-->
+<iframe name="message" width="0" height="0" title="메세지처리프레임" id="message" src="" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+<iframe name="fraForMyMenu" width="0" height="0" title="마이메뉴메세지등록용프레임" src=""></iframe>
+
+</div><!-- END Lheader -->
+<div class="hidden">
+    
+    <form name="frmAddMyMenu" action="/PMainJ.jsp" method="post">
+        <input name="menu_id" id="addMenuID" type="hidden" value="">
+        <input style="visibility: hidden;" type="submit" value="쿼리 전송">
+    </form>
+
+    <form name="xecure" action="/PMainJ.jsp"><input name="p" type="hidden">
+        <input style="visibility: hidden;" type="submit" value="쿼리 전송">
+    </form>
+
+    <form name="xecureform1" action="/PMainJ.jsp">
+        <input style="visibility: hidden;" type="submit" value="쿼리 전송">
+    </form>
+
+    <!--부동산/법인 메뉴처리 시작-->
+    <form name="menu_form" action="/PMainJ.jsp">
+        <input name="registry_type" type="hidden" value="">
+        <input style="visibility: hidden;" type="submit" value="쿼리 전송"><!--R:부동산,C:법인,E:기타-->
+    </form>
+    <!--부동산/법인 메뉴처리 끝-->
+
+    <!--담보등기 신청서 작성 1단계 호출 시작-->
+    <form name="xecureformidis" action="/PMainJ.jsp">
+        <input style="visibility: hidden;" type="submit" value="쿼리 전송">
+        <input name="hdn_write_gbn" type="hidden" value="N">
+    </form>
+    <!--담보등기 신청서 작성 1단계 호출 끝-->
+     <!--2016-12-11 Jerry Youn 추가 시작-->
+    <form name="frm_b112Menu" id="frm_goMenu" action="" method="post" target="_self">    
+    </form>
+    <!--2016-12-11 Jerry Youn 추가 시작-->
+</div>
+
+
+
+	<div id="Lsidebar">
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="leftSection">
+<h2 class="title"> 등기신청</h2>
+<div id="snb">
+<ul>
+
+			<li>
+				<a href="#0">부동산(통합전자등기)</a>
+				<ul style="display: none;">
+					<li>
+						<p><a href="#0">신청관리</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/b112/r2/selectApplCsInq.do">신청현황</a></li>
+									<li><a onclick="javascript:f_New_XecureSubmit('/b112/r2/selectBatchSignList.do'); return false;" href="#0">신청사항 확인 및 전자서명</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a href="#0">작성관리</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/b112/r3/selectPrgsApfrmWrtCs.do">작성현황</a></li>
+									<li><a href="/b112/r3/selectApplNotiMngList.do">통지 및 승인관리</a></li>
+									<li><a href="/b112/r3/selectApplFeeBpayObjList.do">신청수수료관리</a></li>
+									<li><a href="/b112/r3/selectSbmtWaitList.do">제출관리</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a href="/b112/r4/selectApfrmHandlCont.do">진행관리</a></p>
+					</li>
+					<li>
+						<p><a href="/b112/r5/selectEndAfMng.do">완료후관리</a></p>
+					</li>
+					<li>
+						<p><a href="#0">지원관리</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a onclick="javascript:f_New_XecureSubmit('/b112/csd/selectCausDeedList.do'); return false;" href="#0">원인증서관리</a></li>
+									<li><a href="/b112/ur/openUserMng.do?menuFlag=RS">사용자 관리</a></li>
+									<li><a href="/b112/z1/selectEnrEtdoc.do">영구보존문서등록</a></li>
+									<li><a href="/b112/rcm/selectERCMLapseJ.do">등기필정보관리</a></li>
+									<li><a href="/b112/z3/selectEZ3LandUtnPlanInqJ.do">토지이용계획조회</a></li>
+									<li><a onclick="javascript:window.open('https://www.wetax.go.kr/main/RegSingoTax.jsp','new','top=70,left=150,width=660,height=410,toolbar=no,scrollbars=no,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="#0">등록면허세 정액분 신고</a></li>
+									<li><a href="/b112/r6/selectER6FobjCaseNoInqJ.do">이의신청사건번호</a></li>
+									<li><a href="/b112/r1/selectStpTaxUnUsedEvid.do">인지세 미사용여부 확인</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a href="#0">자주 사용하는 정보</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/b112/z2/selectRgsTypeList.do?rc_cls=R">등기유형</a></li>
+									<li><a href="/b112/z2/selectRgsList.do?rc_cls=R">등기소</a></li>
+									<li><a href="/b112/z2/selectCorpList.do?rc_cls=R">법인</a></li>
+									<li><a href="/b112/z2/selectAttachDocList.do?rc_cls=R">첨부서면</a></li>
+									<li><a href="/b112/z2/selectRightPrsList.do?rc_cls=R">권리자</a></li>
+									<li><a href="/b112/z2/selectDebtorList.do?rc_cls=R">의무자</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+
+			<li class="on">
+				<a href="#0">법인</a>
+				<ul style="display: block;">
+					<li class="on">
+						<p><a href="#0">전자신청하기</a><span class="ico1" style='background: url("/iros/images/001/common/ico_minus.gif") no-repeat left top;'></span></p>
+						<ul style="display: block;">
+							<li class="on">
+								<p><a href="#">등기신청자용</a><span class="ico2" style='background: url("/iros/images/001/common/r_minus.gif") no-repeat left top;'></span></p>
+								<ul class="ds3" style="display: block;">
+									<li class="on"><a href="/efrontservlet?cmd=EC2GetBfPayListC&amp;work_cls=I">신청서작성 및 제출</a></li>
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EZ1GetApproverCnfmCorpC',f_goMenuUrl); return false;" href="#0">확인 및 전자서명</a></li>
+									<li><a href="/efrontservlet?cmd=EC3RetrieveWriteApplListC&amp;work_cls=I">신청처리 내역보기</a></li>
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EZ1GetEPayListC&amp;menuFlag=C',f_goMenuUrl); return false;" href="#0">신청수수료 결제내역보기</a></li>
+									<li><a href="/b112/ur/openUserMng.do?menuFlag=C">사용자 관리</a></li>
+								</ul>
+							</li>
+							<li>
+								<p><a href="#">회사설립등기신청</a><span class="ico2"></span></p>
+								<ul class="ds3" style="display: none;">
+									<li><a href="/efrontservlet?cmd=EC6RetrieveWriteApplRegListC&amp;work_cls=I">신청서작성 및 제출</a></li>
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EC6SearchApproverC',f_goMenuUrl); return false;" href="#0">확인 및 전자서명</a></li>
+									<li><a href="/efrontservlet?cmd=EC6RetrieveWriteApplListC&amp;work_cls=I">신청처리 내역보기</a></li>
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EC6RetrieveEPayListC&amp;menuFlag=C',f_goMenuUrl); return false;" href="#0">신청수수료 결제내역보기</a></li>
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EC2GetOrisEPayWriteApplListC&amp;menuFlag=C',f_goMenuUrl); return false;" href="#0">온라인법인설립시스템 사용자메뉴</a></li>
+								</ul>
+							</li>
+							<li>
+								<p><a href="#">전자서명자용</a><span class="ico2"></span></p>
+								<ul class="ds3" style="display: none;">
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EZ1GetBatchSignCorpC',f_goMenuUrl); return false;" href="#0">신청사항 확인 및 전자서명</a></li>
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EC6RetrieveBalProCastPayListC',f_goMenuUrl); return false;" href="#0">잔고(주금)증명서 발급 및 조회</a></li>
+								</ul>
+							</li>
+							<li>
+								<p><a href="#">전자증명서 등록 및 관리</a><span class="ico2"></span></p>
+								<ul class="ds3" style="display: none;">
+									<li><a href="/efrontservlet?cmd=EURRpkiRegUserC">이용정보 관리</a></li>
+									<li><a href="/efrontservlet?cmd=EURRpkiModfUsrAccHtmlC">전자증명서 관리</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a href="#0">e-Form 신청하기</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/efrontservlet?cmd=EC2GetBfPayListC&amp;work_cls=E">신청서작성현황</a></li>
+									<li><a href="/efrontservlet?cmd=EC3RetrieveWriteApplListC&amp;work_cls=E">신청처리내역 보기</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a style="padding-top: 0px;" onclick="javascript:XecureURL('/efrontservlet?cmd=EC7WriteSealImpSmsServiceC',f_goMenuUrl); return false; " href="#0">법인인감증명서 발급사실 등 문자전송 서비스 신청</a></p>
+					</li>
+					<li>
+						<p><a href="#0">온라인 인감신고</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<p><a href="#">인감신고자용</a><span class="ico2"></span></p>
+								<ul class="ds3" style="display: none;">
+									<li><a href="/efrontservlet?cmd=EC5RecvSealImpListC">인감개폐인 신고서 작성/제출</a></li>
+									<li><a href="/efrontservlet?cmd=EC5RetrieveRecvSealImpListC">인감개폐인 신고서 처리내역</a></li>
+								</ul>
+							</li>
+							<li>
+								<p><a href="#">전자서명자용</a><span class="ico2"></span></p>
+								<ul class="ds3" style="display: none;">
+									<li><a onclick="javascript:XecureURL('/efrontservlet?cmd=EC5ApproverCnfmSealImpDSC',f_goMenuUrl); return false;" href="#0">인감개폐인 신고서 확인/서명</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a onclick="javascript:window.open('https://www.wetax.go.kr/main/RegSingoTax.jsp','new','top=70,left=150,width=660,height=410,toolbar=no,scrollbars=no,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="#0">등록면허세 정액분 신고</a></p>
+					</li>
+					<li>
+						<p><a href="#0">자주 사용하는 정보</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/b112/z2/selectRgsTypeList.do?rc_cls=C">등기유형</a></li>
+									<li><a href="/b112/z2/selectRgsList.do?rc_cls=C">등기소</a></li>
+									<li><a href="/b112/z2/selectCorpList.do?rc_cls=C">법인</a></li>
+									<li><a href="/b112/z2/selectAttachDocList.do?rc_cls=C">첨부서면</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				<a href="#0">동산·채권담보</a>
+				<ul style="display: none;">
+					<li>
+						<p><a href="#0">전자신청</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<p><a href="#">등기신청자용</a><span class="ico2"></span></p>
+								<ul class="ds3" style="display: none;">
+									<li><a href="/d3/ed3/ed3RetrieveWriteApplStatList.dev?work_cls=I">신청서작성 및 제출</a></li>
+									<li><a onclick="javascript:XecureURL('/d6/ed6/ed6RetrieveWriteApplEdiAprvList.dev?work_cls=I',f_goMenuUrl); return false;" href="#0">확인 및 전자서명</a></li>
+									<li><a href="/d3/ed3/ed3RetrieveWriteApplList.dev?work_cls=I">신청처리 내역보기</a></li>
+									<li><a href="/d8/ed8/ed8RetrieveEPayList.dev?work_cls=I">신청수수료 결제내역보기</a></li>
+									<li><a onclick="javascript:XecureURL('/rcm/rcm/ercmRetrieveLapsAsk.dev',f_goMenuUrl); return false;" href="#0">등기필정보 관리</a></li>
+								</ul>
+							</li>
+							<li>
+								<p><a href="#">전자서명자용</a><span class="ico2"></span></p>
+								<ul class="ds3" style="display: none;">
+									<li><a onclick="javascript:XecureURL('/d6/ed6/ed6RetrieveLumpSignList.dev',f_goMenuUrl); return false;" href="#0">신청사항 확인 및 전자서명</a></li>
+									<li><a onclick="javascript:f_openRecordDoc(); return false;" href="#0">비등록문서 전자서명</a></li>
+									<li id="RD_d3_0_1_2" style="display: none;"><a onclick="javascript:f_openEnvDoc(); return false;" href="#0">등기필정보 복호화</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a href="#0">e-Form 신청</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/d3/ed3/ed3RetrieveWriteApplStatList.dev?work_cls=E">신청서작성현황</a></li>
+									<li><a href="/d3/ed3/ed3RetrieveWriteApplList.dev?work_cls=E">신청처리내역 보기</a></li>
+									<li><a href="/d5/ed5/ed5RetrieveAtthDocRegt.dev?work_cls=E">첨부서면제출등기소 조회</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a href="#0">담보목적물 목록 작성</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/d0/ed0/ed0RetrieveCerRegReaWriteList.dev?work_cls=E">담보목적물 목록 작성</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p><a onclick="javascript:window.open('https://www.wetax.go.kr/main/RegSingoTax.jsp','new','top=70,left=150,width=660,height=410,toolbar=no,scrollbars=no,resizable=no,status=no,titlebar=yes,menubar=no,location=no' ); return false;" href="#0">등록면허세 정액분 신고</a></p>
+					</li>
+					<li>
+						<p><a href="#0">자주 사용하는 정보</a><span class="ico1"></span></p>
+						<ul style="display: none;">
+							<li>
+								<ul>
+									<li><a href="/d4/ed4/ed4RetrieveFUIRgsType.dev?rc_cls=D">등기유형</a></li>
+									<li><a href="/d4/ed4/ed4RetrieveFUIRegt.dev?rc_cls=D">등기소</a></li>
+									<li><a onclick="javascript:XecureURL('/d4/ed4/ed4RetrieveFUICorp.dev?rc_cls=D',f_goMenuUrl); return false;" href="#0">담보권설정자</a></li>
+									<li><a href="/d4/ed4/ed4RetrieveFUIAtthDoc.dev?rc_cls=D">첨부서면</a></li>
+									<li><a onclick="javascript:XecureURL('/d4/ed4/ed4RetrieveFUISecCre.dev?rc_cls=D',f_goMenuUrl); return false;" href="#0">담보권자</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+</ul>
+</div>
+</div>
+
+
+<script language="JavaScript" type="text/javascript">
+// <![CDATA[
+<!--
+
+	var agt=navigator.userAgent.toLowerCase();
+	var is_mac = (agt.indexOf("mac")!=-1);
+	var is_linux = (agt.indexOf("inux")!=-1);
+	
+// 리눅스하고 맥에서만  등기필정보 복호화  타인발급 메뉴 보이게 함, 2009.03.27 조강욱
+if ( is_mac || is_linux ) {
+    if(document.getElementById("RR_d3_0_1_2") != null) document.getElementById("RR_d3_0_1_2").style.display = '';   //
+    if(document.getElementById("RD_d3_0_1_2") != null) document.getElementById("RD_d3_0_1_2").style.display = '';
+} else {
+    if(document.getElementById("RR_d3_0_1_2") != null) document.getElementById("RR_d3_0_1_2").style.display = 'none';
+    if(document.getElementById("RD_d3_0_1_2") != null) document.getElementById("RD_d3_0_1_2").style.display = 'none';
+}
+
+// 현재 접속한 메뉴 표시를 위한 세팅
+snb1Idx = "2";
+snb2Idx = "1";
+snb3Idx = "1";
+snb4Idx = "1";
+//-->
+// ]]>
+</script>
+
+
+	</div>
+
+
+
+
+	
+
+	
+	<div id="Lcontent"><!-- START Lcontent -->
+		
+<div class="mt">
+	<h4>신청서작성 및 제출</h4>
+<h5>화면경로</h5>
+<span class="path">
+	     			HOME
+	     			<span class="path_bul">등기신청</span>
+	     			<span class="path_bul">법인</span>
+	     			<span class="path_bul">전자신청하기</span>
+<span class="path_t">신청서작성 및 제출</span>
+				</span>
+		    </div>
+
+		
+<div class="my">
+<a onclick="javascript:addMyMenuItem('RC010101'); return false;" href="#0"><img alt="my메뉴 추가" src="/iros/images/btn_mymenuadd.gif"></a>
+</div>
+		<!-- END: main title / path / My메뉴추가 -->
+		<!--
+		<div class="he margin10_b" lang="ko" xml:lang="ko">
+			<p>이 화면에서는 신청서를 신규 작성하거나 작성중인 신청서 현황을 조회할 수 있습니다.</p>
+		</div>
+		
+		<h6 class="st1">신청서작성현황</h6>
+		-->
+		<form name="form" action="/intro.jsp" method="post">
+			<div class="hidden">
+				<input name="kadowah1" type="submit" value="쿼리 전송">
+			</div>
+		<input name="user_id" type="hidden">
+		<input name="enr_appl_year" type="hidden">
+		<input name="enr_recev_no" type="hidden">		
+		<input name="searchType" type="hidden">
+
+		<div class="tab-wrap margin10_b"><!-- START: main tab button -->
+		<div class="tab">
+			<ul class="tab_line">
+				
+				<li class="tab_on"><span class="w120"><a title="신청서 작성중" class="tab_bul" href="#0">신청서 작성중</a></span></li>
+				<li class="tab_off"><span class="w120"><a title="신청수수료 결제대기" onclick="f_ePayList(); return false;" href="#0">신청수수료 결제대기</a></span></li> 
+				<li class="tab_off"><span class="w120"><a title="신청서 제출대기" onclick="f_subList(); return false;" href="#0">신청서 제출대기</a></span></li> 
+				
+			</ul>
+		</div>
+		</div><!-- END: main tab button -->
+
+		<div class="he" lang="ko" lang="ko" xml:lang="ko"><!-- START: content help -->
+			<p class="he_bul">작성일자, 작성번호, 등기유형, 신청법인정보를 클릭하시면 작성 중인 신청작성 화면으로 이동합니다.</p>
+		</div><!-- END: content help -->
+				 
+		 <!-- START: rbox04 -->
+		<div class="rbox04 margin10_b">
+			<div class="rbox04-outer">
+				<div class="rbox04-inner">
+					<div class="rbox04-inner">
+					<h6><font style="font-size: 0px; visibility: hidden;">상단프레임</font></h6>		
+						<!--AREA search5-->
+						<div class="search_area">
+								<fieldset> 
+									<legend>검색영역</legend>
+										<ul>
+										
+											<li>
+												<input name="search_type" title="작성일자로 조회" id="id_search_type1" onclick="f_src_type_disp(this.value);" type="radio" checked="checked" value="type_enr_recev_date"><label for="id_search_type1">작성일자&nbsp;</label>
+												<input name="search_type" title="작성번호로 조회" id="id_search_type2" onclick="f_src_type_disp(this.value);" type="radio" value="type_enr_recev_no"><label for="id_search_type2">작성번호&nbsp;</label>
+												<input name="search_type" title="상호로 조회" id="id_search_type3" onclick="f_src_type_disp(this.value);" type="radio" value="type_enr_sangho"><label for="id_search_type3">상호</label>
+											</li>
+										
+											<li id="disp_enr_recev_date" style="padding-left: 8px; display: inline;">
+												<label class="none" for="create_date1">작성일자</label>
+												<input name="create_date1" title="작성일자 조회시작일자" class="input w70" id="create_date1" onkeydown="f_maskDate(this,event);" onkeypress="" onblur="f_dateValidate(this);" type="text" value="2021-03-23">
+												<a onclick="f_openCalender('create_date1', '2021-03-23'); return false;" href="#0"><img alt="작성일자 조회시작일자 버튼" src="../iros/images/icon_carlendar.gif"></a> ~
+												<label class="none" for="create_date2">작성일자</label>
+												<input name="create_date2" title="작성일자 조회종료일자" class="input w70" id="create_date2" onkeydown="f_maskDate(this,event);" onkeypress="f_enter(event);" onblur="f_dateValidate(this);" type="text" value="2021-03-30">
+												<a onclick="f_openCalender('create_date2', '2021-03-30'); return false;" href="#0"><img alt="작성일자 조회종료일자 버튼" src="../iros/images/icon_carlendar.gif"></a>
+												<a onclick="f_searchDate('-7D', '2021-03-30', '-'); return false;" href="#0"><img alt="1주일" src="../iros/images/onew.gif"></a>
+           										<a onclick="f_searchDate('-1M', '2021-03-30', '-'); return false;" href="#0"><img alt="1개월" src="../iros/images/onem.gif"></a>
+											</li>
+											<li id="disp_enr_recev_no" style="padding-left: 8px; display: none;">
+												<label class="none" for="id_txt_enr_recev_no_start">작성번호검색 시작번호</label>
+												<input name="txt_enr_recev_no_start" title="작성번호검색 시작번호 입력창" class="input w70" id="id_txt_enr_recev_no_start" style="-ms-ime-mode: inactive;" onkeydown="f_maskNum1(this,event);" onkeypress="if(event.keyCode==13){f_enter_key();}" type="text" maxlength="7" value=""> ~ <input name="txt_enr_recev_no_end" title="작성번호검색 종료번호 입력창" class="input w70" id="id_txt_enr_recev_no_end" style="-ms-ime-mode: inactive;" onkeydown="f_maskNum1(this,event);" onkeypress="if(event.keyCode==13){f_enter_key();}" type="text" maxlength="7" value=""> 
+												<label class="none" for="id_txt_enr_recev_no_end">작성번호검색 종료번호</label>
+											</li>
+											<li id="disp_enr_sangho" style="padding-left: 8px; display: none;">
+												<label class="none" for="id_txt_enr_sangho">상호</label>
+												<input name="txt_enr_sangho" title="상호 입력창" class="input w150" id="id_txt_enr_sangho" style="-ms-ime-mode: active;" type="text" maxlength="30" value="">
+											</li>
+											<li>
+												<button class="sbtn_bg02_action" onmouseover="this.className='sbtn_bg02_action_over';" onmouseout="this.className='sbtn_bg02_action';" onclick="f_list()" onfocus="this.className='sbtn_bg02_action_over';" onblur="this.className='sbtn_bg02_action';" type="button"><img alt="검색" src="../iros/images/btn_icon_search1.gif">검색 </button> 
+											</li>
+										</ul>
+								</fieldset>
+						</div>
+						<!--END AREA search5-->
+	
+	 				</div>
+		        </div>
+		    </div>
+   		</div>
+		<!-- END: rbox04 -->
+		<div class="list_table"><!-- START list_table -->
+			<table cellspacing="0" summary="신청서작성현황 테이블">
+			    <caption>신청서작성현황 테이블</caption>
+			    
+				<tbody><tr>
+					<th width="5%" class="tx_ct" scope="col"><label class="none" for="extra03">선택</label><input class="h16" id="extra03" onclick="All_Check(this.checked)" type="checkbox"></th>
+					<th width="13%" class="tx_ct" scope="col">작성일자</th>
+					<th width="9%" class="tx_ct" scope="col">작성번호</th>
+					<th width="22%" class="tx_ct" scope="col">등기유형</th>
+					<th width="51%" class="noline_rt" scope="col">신청법인정보</th>
+				</tr>
+				
+				<tr>
+					<td class="tx_ct"><label class="none" for="extra041">조건명</label>
+					<input name="chk" class="h16" id="extra041" type="checkbox" value="nutt00|2021|215"></td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','215'); return false;" href="#0">
+                        2021-03-30
+                        </a>
+                    </td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','215'); return false;" href="#0">
+                          215
+                        </a>
+					</td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','215'); return false;" href="#0">
+                          주식회사변경등기
+						</a>
+					</td>
+					<td class="noline_rt">
+						<a onclick="f_writeAppl('nutt00','2021','215'); return false;" href="#0">
+                           016230/주식회사 대양이엔지/경상북도 포항시 북구 흥해 ...
+						</a>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tx_ct"><label class="none" for="extra042">조건명</label>
+					<input name="chk" class="h16" id="extra042" type="checkbox" value="nutt00|2021|201"></td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','201'); return false;" href="#0">
+                        2021-03-26
+                        </a>
+                    </td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','201'); return false;" href="#0">
+                          201
+                        </a>
+					</td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','201'); return false;" href="#0">
+                          주식회사설립등기
+						</a>
+					</td>
+					<td class="noline_rt">
+						<a onclick="f_writeAppl('nutt00','2021','201'); return false;" href="#0">
+                           보리스컴퍼니 주식회사/서울특별시 강남구 봉은사로57길  ...
+						</a>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tx_ct"><label class="none" for="extra043">조건명</label>
+					<input name="chk" class="h16" id="extra043" type="checkbox" value="nutt00|2021|200"></td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','200'); return false;" href="#0">
+                        2021-03-26
+                        </a>
+                    </td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','200'); return false;" href="#0">
+                          200
+                        </a>
+					</td>
+					<td class="tx_ct">
+						<a onclick="f_writeAppl('nutt00','2021','200'); return false;" href="#0">
+                          주식회사설립등기
+						</a>
+					</td>
+					<td class="noline_rt">
+						<a onclick="f_writeAppl('nutt00','2021','200'); return false;" href="#0">
+                           주식회사 커윈/경기도 파주시 회동길 37-14, 3층 303호( ...
+						</a>
+					</td>
+				</tr>
+								
+			</tbody></table>
+		</div><!-- END list_table --> 
+		
+		<input name="chk" type="hidden" value="">
+		<input name="chk" type="hidden" value="">
+		
+		<!-- 기존 paging START -->
+		<!-- 법인상호검색 기능개선  2020-W00108 이종진 2020.02.27 -->
+		<div class="pg margin5_b"><!-- START paginate -->
+			<div class="pg_sum">총 <span>3</span> 건</div>
+			<div class="paginate">
+				 
+				
+				<strong class="first-child">1</strong>
+				
+				 
+				<span class="pg2">&nbsp;
+			    
+			      (1 / 1)
+			    
+				</span>
+			</div>
+		</div><!-- END paginate -->
+		<!-- 기존 paging END -->		
+					
+		
+		<div class="table_btn_bottom"><!-- START table_btn_bottom -->
+			<button class="btn_bg02_action" onmouseover="this.className='btn_bg02_action_over';" onmouseout="this.className='btn_bg02_action';" onclick="f_writeAppl();" onfocus="this.className='btn_bg02_action_over';" onblur="this.className='btn_bg02_action';" type="button">신규</button>
+			<button class="btn_bg02_action" onmouseover="this.className='btn_bg02_action_over';" onmouseout="this.className='btn_bg02_action';" onclick="f_remove();" onfocus="this.className='btn_bg02_action_over';" onblur="this.className='btn_bg02_action';" type="button">삭제</button>
+
+			<button class="btn_bg07_action" onmouseover="this.className='btn_bg07_action_over';" onmouseout="this.className='btn_bg07_action';" onclick="f_trans_eform();" onfocus="this.className='btn_bg07_action_over';" onblur="this.className='btn_bg07_action';" type="button">전자표준양식전환</button><!--전자표준양식전환([인터넷고도화]반승현수정)-->
+
+		</div><!-- END table_btn_bottom -->
+	</form>
+	</div><!-- END Lcontent -->							
+</div><!-- END Lwrap -->	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="Lfooter" style="-ms-zoom: 100%;">
+
+
+
+
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+if(	(navigator.userAgent.toLowerCase().indexOf("msie") >= 0) || (navigator.userAgent.toLowerCase().indexOf("trident") >= 0) )
+{
+	
+	f_browser_zoom_Lwrap(0,"Lfooter");
+}
+else
+{
+//	document.getElementById("div_zoom").style.display = "none";
+}
+
+//]]>
+</script>
+
+		<div id="n_footer"> <!-- footer -->
+			<div class="foot"> <!-- foot -->
+				<div class="f_top"> <!-- f_top -->
+					<p class="left"><strong>주요사이트</strong></p>
+					<div class="site_banner">
+						<div class="prev"><a href="#"><img alt="이전" src="/iros/images/001/common/f_prev.gif"></a></div>
+						<div class="banner">
+							<ul style="margin-left: -110px;"><li><a title="등기정보광장 새창으로 이동" href="https://data.iros.go.kr" target="_blank">등기정보광장</a></li>
+								<li><a title="대한민국법원 새창으로 이동" href="http://www.scourt.go.kr" target="_blank">대한민국법원</a></li>
+								<li><a title="전자소송 새창으로 이동" href="http://ecfs.scourt.go.kr" target="_blank">전자소송</a></li>
+								<li><a title="전자공탁 새창으로 이동" href="http://ekt.scourt.go.kr" target="_blank">전자공탁</a></li>
+								<li><a title="전자가족관계등록 새창으로 이동" href="http://efamily.scourt.go.kr" target="_blank">전자가족관계등록</a></li>
+								<li><a title="법원경매정보 새창으로 이동" href="http://www.courtauction.go.kr" target="_blank">법원경매정보</a></li>
+								<li><a title="도로명주소안내 새창으로 이동" href="http://www.juso.go.kr" target="_blank">도로명주소안내</a></li>
+                                
+                                
+                                
+							</ul>
+						</div>
+						<div class="next"><a href="#"><img alt="다음" src="/iros/images/001/common/f_next.gif"></a></div>
+						<div class="stop"><a href="#"><img alt="정지" src="/iros/images/001/common/btn_stop.gif"></a></div>
+					</div>
+
+										<form name="selectForm1" onsubmit="siteLink();return false;" action="#">
+					<div class="family"> <!-- family -->
+						<label class="none" for="site1"></label><select name="url" title="법원웹사이트" id="site1" style="width: 170px;">
+						<option value="/PMainJ.jsp">법원웹사이트</option>
+						<optgroup label="Family site">
+						  
+			                <option value="http://www.scourt.go.kr">대한민국법원</option>
+			        
+			                <option value="http://jrti.scourt.go.kr">사법연수원</option>
+			        
+			                <option value="http://jpri.scourt.go.kr">사법정책연구원</option>
+			        
+			                <option value="http://edu.scourt.go.kr">법원공무원교육원</option>
+			        
+			                <option value="http://library.scourt.go.kr">법원도서관</option>
+			        
+			                <option value="http://sc.scourt.go.kr">양형위원회</option>
+			        
+			                <option value="http://patent.scourt.go.kr">특허법원</option>
+			        
+			                <option value="http://ekt.scourt.go.kr">전자공탁</option>
+			        
+						</optgroup>
+						<optgroup label="고등법원">
+			        
+			                <option value="http://slgodung.scourt.go.kr">서울고등법원</option>
+			        
+			                <option value="http://djgodung.scourt.go.kr">대전고등법원</option>
+			        
+			                <option value="http://dggodung.scourt.go.kr">대구고등법원</option>
+			        
+			                <option value="http://bsgodung.scourt.go.kr">부산고등법원</option>
+			        
+			                <option value="http://gjgodung.scourt.go.kr">광주고등법원</option>
+			        
+			                <option value="http://swgodung.scourt.go.kr">수원고등법원</option>
+			        
+						</optgroup>
+						<optgroup label="법원">
+			        
+			                <option value="http://seoul.scourt.go.kr">서울중앙지방법원</option>
+			        
+			                <option value="http://slfamily.scourt.go.kr">서울가정법원</option>
+			        
+			                <option value="http://sladmin.scourt.go.kr">서울행정법원</option>
+			        
+			                <option value="http://sldongbu.scourt.go.kr">서울동부지방법원</option>
+			        
+			                <option value="http://slnambu.scourt.go.kr">서울남부지방법원</option>
+			        
+			                <option value="http://slbukbu.scourt.go.kr">서울북부지방법원</option>
+			        
+			                <option value="http://slseobu.scourt.go.kr">서울서부지방법원</option>
+			        
+			                <option value="http://uijeongbu.scourt.go.kr">의정부지방법원</option>
+			        
+			                <option value="http://incheon.scourt.go.kr">인천지방법원</option>
+			        
+			                <option value="http://icfamily.scourt.go.kr">인천가정법원</option>
+			        
+			                <option value="http://suwon.scourt.go.kr">수원지방법원</option>
+			        
+			                <option value="http://swfamily.scourt.go.kr">수원가정법원</option>
+			        
+			                <option value="http://chuncheon.scourt.go.kr">춘천지방법원</option>
+			        
+			                <option value="http://daejeon.scourt.go.kr">대전지방법원</option>
+			        
+			                <option value="http://djfamily.scourt.go.kr">대전가정법원</option>
+			        
+			                <option value="http://cheongju.scourt.go.kr">청주지방법원</option>
+			        
+			                <option value="http://daegu.scourt.go.kr">대구지방법원</option>
+			        
+			                <option value="http://dgfamily.scourt.go.kr">대구가정법원</option>
+			        
+			                <option value="http://busan.scourt.go.kr">부산지방법원</option>
+			        
+			                <option value="http://bsfamily.scourt.go.kr">부산가정법원</option>
+			        
+			                <option value="http://ulsan.scourt.go.kr">울산지방법원</option>
+			        
+			                <option value="http://usfamily.scourt.go.kr">울산가정법원</option>
+			        
+			                <option value="http://changwon.scourt.go.kr">창원지방법원</option>
+			        
+			                <option value="http://gwangju.scourt.go.kr">광주지방법원</option>
+			        
+			                <option value="http://gjfamily.scourt.go.kr">광주가정법원</option>
+			        
+			                <option value="http://jeonju.scourt.go.kr">전주지방법원</option>
+			        
+			                <option value="http://jeju.scourt.go.kr">제주지방법원</option>
+			        
+						</optgroup>
+						</select>
+						<input title="법인웹사이트 새창으로 이동" id="go_move" type="image" alt="법인웹사이트 새창으로 이동" src="/iros/images/001/common/btn_go.gif">
+						
+					</div> <!-- // family -->
+					</form>	<!-- // form -->
+
+				</div>  <!-- // f_top -->
+				<div class="f_bot">
+					<div class="top">
+						<a title="이용약관 새창으로 이동" onclick="window.open(this.href,'new','top=40,left=130,width=740,height=530,toolbar=no,scrollbars=yes,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="/pos1/html/com/PCOMUseEgrmntH.html" target="_blank">이용약관</a><span class="mlr">|</span>
+						<a title="개인정보처리방침 새창으로 이동" onclick="window.open(this.href,'new','top=40,left=130,width=740,height=530,toolbar=no,scrollbars=yes,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="/pos1/html/com/PCOMPrivacyH.html" target="_blank"><strong class="security">개인정보처리방침</strong></a><span class="mlr">|</span>
+						<a title="링크시전제조건 새창으로 이동" onclick="window.open(this.href,'new','top=40,left=130,width=740,height=530,toolbar=no,scrollbars=yes,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="/pos1/html/com/PCOMLinkH.html" target="_blank">링크시 전제조건</a><span class="mlr">|</span>
+						<a title="저작권보호정책 새창으로 이동" onclick="window.open(this.href,'new','top=40,left=130,width=740,height=380,toolbar=no,scrollbars=yes,resizable=yes,status=no,titlebar=yes,menubar=no,location=no'); return false;" href="/pos1/html/com/PCOMguardH.html" target="_blank">저작권보호정책</a><span class="mlr">|</span>
+						<a title="공공기관" href="/pos1/jsp/cms6/web1/view.jsp?menuid=001007001">공공기관</a><span class="mlr">|</span>
+						<a href="/pos1/jsp/com/PCOMRssH.jsp">RSS 서비스안내</a><span class="mlr">|</span>
+						<span class="mark">
+							<a title="정보보호체계인증 새창으로 이동" onclick="window.open(this.href,'kisa','status=1,scrollbars=no,top=0,left=0,width=610,height=432'); return false;" href="/pos1/html/com/PCOMCertH.html" target="_blank"><img alt="정보보호관리체계인증" src="/iros/images/001/common/img_kisa.gif"></a>
+						</span>
+						<span class="ml1" id="div_w3c">
+						   <a href="http://validator.w3.org/check/referer">
+							   <img 
