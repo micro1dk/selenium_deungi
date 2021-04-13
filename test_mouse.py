@@ -13,7 +13,7 @@ class Example(QWidget):
         self.top = 150
         self.width = 200
         self.height = 200
-        self.initUI()
+        self.initUI()7
         
     def initUI(self):
         window = QHBoxLayout()
